@@ -2,11 +2,10 @@ package com.idealcn.lifecycle.study
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.idealcn.lifecycle.study.bean.Article
-import com.idealcn.lifecycle.study.bean.BaseResponseBean
-import com.idealcn.lifecycle.study.bean.HomeArticleBean
+import com.idealcn.lifecycle.study.bean.*
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -28,4 +27,18 @@ interface Api {
     fun collect(@Path("id")id : Int) : Observable<BaseResponseBean<Boolean>>
 
 
+    /**
+     * 获取公众号列表
+     * http://wanandroid.com/wxarticle/chapters/json
+     */
+    @GET("wxarticle/chapters/json")
+    fun chapterList() : Single<BaseResponseBean<List<Chapter>>>
+
+
+    /**
+     * 获取某个公众号历史数据
+     * http://wanandroid.com/wxarticle/list/405/1/json
+     */
+    @GET("wxarticle/list/{chapterId}/{pageIndex}/json")
+    fun chapterHistoryList(@Path("chapterId")chapterId : Int,@Path("pageIndex")pageIndex : Int) : Single<BaseResponseBean<ChapterHistory>>
 }

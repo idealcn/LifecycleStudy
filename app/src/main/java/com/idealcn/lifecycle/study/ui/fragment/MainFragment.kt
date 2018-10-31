@@ -1,0 +1,84 @@
+package com.idealcn.lifecycle.study.ui.fragment
+
+import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import com.idealcn.lifecycle.study.R
+import com.idealcn.lifecycle.study.bean.HomeArticleBean
+import com.idealcn.lifecycle.study.ui.ArticleDetailActivity
+import com.idealcn.lifecycle.study.ui.adapter.HomeArticleAdapter
+import com.idealcn.lifecycle.study.ui.mvp.model.MainViewModel
+import com.idealcn.lifecycle.study.ui.mvp.view.MainView
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_home.*
+
+class MainFragment : BaseFragment(),MainView {
+
+    private lateinit var articleAdapter  : HomeArticleAdapter
+
+    private var page = 0
+
+
+
+
+
+    override fun initViews() {
+        homeRecyclerView.layoutManager = LinearLayoutManager(_context)
+//        homeList.addItemDecoration(decoration)
+        articleAdapter = HomeArticleAdapter(_context)
+        homeRecyclerView.adapter = articleAdapter
+        articleAdapter.setOnAdapterItemClickListener(object : HomeArticleAdapter.OnAdapterItemClickListener{
+            override fun onItemClick(position: Int) {
+                val article = articleAdapter.getData()[position]
+                startActivity(Intent(_context, ArticleDetailActivity::class.java).putExtra("article",article))
+            }
+
+        })
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(_context,R.color.colorPrimary))
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+
+
+
+    }
+
+
+    private fun refreshData() {
+        val subscriber = ViewModelProviders.of(this).get(MainViewModel::class.java)
+            .homeArticleList(page)
+            .subscribeWith(observer)
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.fragment_home
+    }
+
+    override fun loadData() {
+
+        refreshData()
+
+    }
+
+
+    private val observer : Observer<HomeArticleBean> = object  : Observer<HomeArticleBean>{
+        override fun onComplete() {
+            swipeRefreshLayout.isRefreshing = false
+        }
+
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(t: HomeArticleBean) {
+            val list = t.datas
+            articleAdapter.setData(articleAdapter.getData().size,list)
+        }
+
+        override fun onError(e: Throwable) {
+        }
+
+    }
+
+}

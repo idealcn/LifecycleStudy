@@ -29,10 +29,10 @@ public class ArticleDetailActivity extends AppCompatActivity {
 
         article = (Article) getIntent().getExtras().getSerializable("article");
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setTitle(article.getTitle());
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setTitle(article.getTitle());
 
     }
 
