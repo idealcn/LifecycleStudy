@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Article
 
-class HomeArticleAdapter constructor(private var context: Context) : RecyclerView.Adapter<HomeArticleAdapter.ArticleHolder>() {
+class HomeArticleAdapter constructor(  context: Context) : RecyclerView.Adapter<HomeArticleAdapter.ArticleHolder>() {
 
     private var inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -21,7 +21,7 @@ class HomeArticleAdapter constructor(private var context: Context) : RecyclerVie
         fun onItemClick(position: Int)
     }
 
-    public fun setOnAdapterItemClickListener(listener: OnAdapterItemClickListener){
+     fun setOnAdapterItemClickListener(listener: OnAdapterItemClickListener){
         this.listener = listener
     }
 

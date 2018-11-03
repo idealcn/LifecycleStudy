@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import com.idealcn.lifecycle.study.CollectDecoration
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.ui.ArticleDetailActivity
@@ -21,12 +22,13 @@ class MainFragment : BaseFragment(),MainView {
     private var page = 0
 
 
-
+    private lateinit var decoration :CollectDecoration
 
 
     override fun initViews() {
+        decoration = CollectDecoration(_context)
         homeRecyclerView.layoutManager = LinearLayoutManager(_context)
-//        homeList.addItemDecoration(decoration)
+        homeRecyclerView.addItemDecoration(decoration)
         articleAdapter = HomeArticleAdapter(_context)
         homeRecyclerView.adapter = articleAdapter
         articleAdapter.setOnAdapterItemClickListener(object : HomeArticleAdapter.OnAdapterItemClickListener{
@@ -73,6 +75,7 @@ class MainFragment : BaseFragment(),MainView {
 
         override fun onNext(t: HomeArticleBean) {
             val list = t.datas
+            decoration.setData(decoration.getData().size,list)
             articleAdapter.setData(articleAdapter.getData().size,list)
         }
 

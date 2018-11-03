@@ -13,7 +13,7 @@ import java.util.logging.Logger
 /**
  * 用于绘制收藏标记
  */
-class CollectDecoration(var context: Context) : RecyclerView.ItemDecoration() {
+class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
 
 
     private val path : Path = Path()
@@ -37,20 +37,6 @@ class CollectDecoration(var context: Context) : RecyclerView.ItemDecoration() {
         textPaint.color = Color.WHITE
         textPaint.style = Paint.Style.STROKE
         textPaint.textSize = 14f
-    }
-
-    override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
-        super.getItemOffsets(outRect, view, parent, state)
-    }
-
-    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
-        super.onDraw(canvas, parent, state)
-
-
-
-
-
-
     }
 
     override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
@@ -97,7 +83,7 @@ class CollectDecoration(var context: Context) : RecyclerView.ItemDecoration() {
     }
 
     fun setData(index:Int,list: ArrayList<Article>) {
-        list.addAll(index,list)
+        this.list.addAll(index,list)
     }
 
 
