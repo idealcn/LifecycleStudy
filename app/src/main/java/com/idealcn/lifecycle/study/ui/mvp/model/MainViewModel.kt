@@ -32,7 +32,7 @@ class MainViewModel : ViewModel() {
                 val data = it.data
                 Observable.just(data)
             } else {
-                Observable.error(BaseThrowable(it.errorMsg))
+                Observable.error(BaseThrowable(it.errorMsg,it.errorCode))
             }
         }
     }

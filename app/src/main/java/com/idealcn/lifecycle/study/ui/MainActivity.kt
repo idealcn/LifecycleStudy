@@ -8,10 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Chapter
-import com.idealcn.lifecycle.study.ui.fragment.KnowledgeFragment
-import com.idealcn.lifecycle.study.ui.fragment.MainFragment
-import com.idealcn.lifecycle.study.ui.fragment.NavigationFragment
-import com.idealcn.lifecycle.study.ui.fragment.ProgrammeFragment
+import com.idealcn.lifecycle.study.ui.fragment.*
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.main_activity.*
@@ -33,11 +30,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, MainFragment.newInstance())
-//                .commitNow()
-//        }
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.drawContainer, DrawerFragment.newInstance())
+                .commitNow()
+        }
 
 
         homePager.adapter = object : FragmentPagerAdapter(supportFragmentManager){

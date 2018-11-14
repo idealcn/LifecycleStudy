@@ -2,9 +2,9 @@ package com.idealcn.lifecycle.study.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import com.idealcn.lifecycle.study.R;
 import com.idealcn.lifecycle.study.bean.Article;
 import com.idealcn.lifecycle.study.bean.BaseResponseBean;
@@ -13,14 +13,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.io.Serializable;
 
 public class ArticleDetailActivity extends AppCompatActivity {
 
-    private         Article article;
+    private Article article;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,9 +30,12 @@ public class ArticleDetailActivity extends AppCompatActivity {
 //        actionBar.setDisplayShowCustomEnabled(true);
 //        actionBar.setTitle(article.getTitle());
 
+
+
     }
 
     public void collect(View view) {
+
 
         Disposable disposable = RetrofitClient.newInstance().getApi().collect(article.getId())
                 .subscribeOn(Schedulers.io())
