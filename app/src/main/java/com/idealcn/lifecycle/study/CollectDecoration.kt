@@ -39,7 +39,7 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
         textPaint.textSize = 14f
     }
 
-    override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(canvas, parent, state)
         val size = list.size
         if (size<=0) return
@@ -57,28 +57,33 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
         val childCount = layoutManager.childCount
         for (x in 0 until  childCount){
 
-            val child = layoutManager.getChildAt(x)
-            val childAdapterPosition = parent.getChildAdapterPosition(child)
-            val childLayoutPosition = parent.getChildLayoutPosition(child)
-            val article : Article? = list[childLayoutPosition]
-            if (null==article || !article.collect)continue
+            val child  : View? = layoutManager.getChildAt(x)
 
-            logger.info("childAdapterPosition: $childAdapterPosition,   childLayoutPosition: $childLayoutPosition")
-            val top = child.top
-           // logger.info("childCount: $x, top : $top")
-            val layoutParams = child.layoutParams as RecyclerView.LayoutParams
-            path.moveTo((parent.width- layoutParams.rightMargin-180).toFloat(), top.toFloat())
-            path.lineTo((parent.width- layoutParams.rightMargin-70).toFloat(),top.toFloat())
-            path.lineTo(parent.width.toFloat()- layoutParams.rightMargin,(top +70).toFloat())
-            path.lineTo(parent.width.toFloat()- layoutParams.rightMargin, (top +180).toFloat())
-            path.lineTo((parent.width- layoutParams.rightMargin-180).toFloat(), top.toFloat())
-            canvas.drawPath(path,pathPaint)
-            path.reset()
+            child?.let {
+                val childAdapterPosition = parent.getChildAdapterPosition(it)
+                val childLayoutPosition = parent.getChildLayoutPosition(it)
+                val article : Article? = list[childLayoutPosition]
+                if (null==article || !article.collect)return@let
 
-            textPath.moveTo((parent.width - layoutParams.rightMargin - 130).toFloat(),top.toFloat())
-            textPath.lineTo((parent.width - layoutParams.rightMargin).toFloat(), (top+130).toFloat())
-            canvas.drawTextOnPath(text,textPath, (child.height/2 -70).toFloat(),0f,textPaint)
-            textPath.reset()
+                logger.info("childAdapterPosition: $childAdapterPosition,   childLayoutPosition: $childLayoutPosition")
+                val top = child.top
+                // logger.info("childCount: $x, top : $top")
+                val layoutParams = it.layoutParams as RecyclerView.LayoutParams
+                path.moveTo((parent.width- layoutParams.rightMargin-180).toFloat(), top.toFloat())
+                path.lineTo((parent.width- layoutParams.rightMargin-70).toFloat(),top.toFloat())
+                path.lineTo(parent.width.toFloat()- layoutParams.rightMargin,(top +70).toFloat())
+                path.lineTo(parent.width.toFloat()- layoutParams.rightMargin, (top +180).toFloat())
+                path.lineTo((parent.width- layoutParams.rightMargin-180).toFloat(), top.toFloat())
+                canvas.drawPath(path,pathPaint)
+                path.reset()
+
+                textPath.moveTo((parent.width - layoutParams.rightMargin - 130).toFloat(),top.toFloat())
+                textPath.lineTo((parent.width - layoutParams.rightMargin).toFloat(), (top+130).toFloat())
+                canvas.drawTextOnPath(text,textPath, (it.height/2 -70).toFloat(),0f,textPaint)
+                textPath.reset()
+            }
+
+
         }
     }
 
