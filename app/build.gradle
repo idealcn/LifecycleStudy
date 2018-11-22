@@ -16,8 +16,14 @@ android {
     }
     buildTypes {
         release {
+            applicationIdSuffix ".release"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+
         }
     }
     compileOptions {
@@ -25,7 +31,26 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildToolsVersion '28.0.3'
+    //维度
+    flavorDimensions "money" ,"channel"
     productFlavors {
+        //vip和free同属于money维度
+        vip {
+            dimension "money"
+        }
+        free {
+            dimension "money"
+        }
+
+        //vivo和oppo同属于channel维度
+        vivo {
+            dimension "channel"
+            applicationIdSuffix ".vivo"
+        }
+        oppo {
+            dimension "channel"
+            applicationIdSuffix ".oppo"
+        }
     }
 }
 
@@ -48,7 +73,7 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$VERSION_RETROFIT"
     //rxjava2
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     //gson
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.android.support:recyclerview-v7:28.0.0-alpha1'

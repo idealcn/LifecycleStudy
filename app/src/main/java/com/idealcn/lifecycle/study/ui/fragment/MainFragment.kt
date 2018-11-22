@@ -43,7 +43,12 @@ class MainFragment : BaseFragment(),MainView {
             refreshData()
         }
 
+        articleAdapter.getData().forEach forEach@{
+            if (it.chapterName == "hello")return@forEach
+            println(it.author)
+        }
 
+        val a = {x : Int, y : Int -> x+y }
 
     }
 
