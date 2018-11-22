@@ -2,13 +2,18 @@ package com.idealcn.lifecycle.study.ui.fragment
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.idealcn.lifecycle.study.CollectDecoration
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.ui.ArticleDetailActivity
 import com.idealcn.lifecycle.study.ui.adapter.HomeArticleAdapter
+import com.idealcn.lifecycle.study.ui.dagger2.component.DaggerMainComponent
 import com.idealcn.lifecycle.study.ui.mvp.model.MainViewModel
 import com.idealcn.lifecycle.study.ui.mvp.view.MainView
 import io.reactivex.Observer
@@ -24,6 +29,12 @@ class MainFragment : BaseFragment(),MainView {
 
     private lateinit var decoration :CollectDecoration
 
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        //注入
+        DaggerMainComponent.builder().build().injectFragment(this)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun initViews() {
         decoration = CollectDecoration(_context)
