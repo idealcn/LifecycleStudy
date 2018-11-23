@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -16,8 +19,14 @@ android {
     }
     buildTypes {
         release {
+            applicationIdSuffix ".release"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+
         }
     }
     compileOptions {
@@ -25,7 +34,26 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildToolsVersion '28.0.3'
+    //维度
+    flavorDimensions "money" ,"channel"
     productFlavors {
+        //vip和free同属于money维度
+        vip {
+            dimension "money"
+        }
+        free {
+            dimension "money"
+        }
+
+        //vivo和oppo同属于channel维度
+        vivo {
+            dimension "channel"
+            applicationIdSuffix ".vivo"
+        }
+        oppo {
+            dimension "channel"
+            applicationIdSuffix ".oppo"
+        }
     }
 }
 
@@ -64,4 +92,14 @@ dependencies {
 //    def RX_BINDING_VERSION = "3.0.0-alpha1"
 //    implementation "com.jakewharton.rxbinding3:rxbinding:$RX_BINDING_VERSION"
     //implementation "com.jakewharton.rxbinding3:rxbinding-material:$RX_BINDING_VERSION"
+
+
+    //dagger2
+    def version_dagger = "2.15"
+    implementation "com.google.dagger:dagger:$version_dagger"
+    kapt "com.google.dagger:dagger-compiler:$version_dagger"
+    //android-dagger
+    implementation "com.google.dagger:dagger-android:$version_dagger"
+    implementation "com.google.dagger:dagger-android-support:$version_dagger"
+    kapt "com.google.dagger:dagger-android-processor:$version_dagger"
 }
