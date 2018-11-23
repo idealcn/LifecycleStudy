@@ -13,7 +13,6 @@ import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.ui.ArticleDetailActivity
 import com.idealcn.lifecycle.study.ui.adapter.HomeArticleAdapter
-import com.idealcn.lifecycle.study.ui.dagger2.component.DaggerMainComponent
 import com.idealcn.lifecycle.study.ui.mvp.model.MainViewModel
 import com.idealcn.lifecycle.study.ui.mvp.view.MainView
 import io.reactivex.Observer
@@ -31,8 +30,6 @@ class MainFragment : BaseFragment(),MainView {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //注入
-        DaggerMainComponent.builder().build().injectFragment(this)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -54,18 +51,14 @@ class MainFragment : BaseFragment(),MainView {
             refreshData()
         }
 
-        articleAdapter.getData().forEach forEach@{
-            if (it.chapterName == "hello")return@forEach
-            println(it.author)
-        }
-
-        val a = {x : Int, y : Int -> x+y }
 
     }
 
 
     private fun refreshData() {
-        val subscriber = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        //在同一个Fragment或者Activity中,多次获取的ViewModel都是同一个对象
+        val viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        val subscriber = viewModel
             .homeArticleList(page)
             .subscribeWith(observer)
     }

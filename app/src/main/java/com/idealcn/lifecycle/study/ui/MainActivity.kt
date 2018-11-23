@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.idealcn.lifecycle.study.ActivityLifecycleObserver
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Chapter
 import com.idealcn.lifecycle.study.ui.fragment.KnowledgeFragment
@@ -28,11 +29,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var  observer :  Observer<List<Chapter>>
 
+    val activityLifecycleObserver = ActivityLifecycleObserver()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        activityLifecycleObserver.onCreate()
+        lifecycle.addObserver(activityLifecycleObserver)
 //        if (savedInstanceState == null) {
 //            supportFragmentManager.beginTransaction()
 //                .replace(R.id.container, MainFragment.newInstance())
@@ -85,55 +89,37 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-//        val tabLayout = homeTabLayout
-//        tabLayout.setupWithViewPager(homePager)
-//
-//        observer = object : Observer<List<Chapter>>{
-//            override fun onComplete() {
-//            }
-//
-//            override fun onSubscribe(d: Disposable) {
-//            }
-//
-//            override fun onNext(list: List<Chapter>) {
-//                chapterList.addAll(list)
-//                list.forEach{ chapter ->
-//                    val chapterFragment = ChapterFragment()
-//                    val bundle = Bundle()
-//                    bundle.putSerializable("chapter",chapter)
-//                    chapterFragment.arguments = bundle
-//                    fragmentList.add(chapterFragment)
-//                    homePager.adapter?.notifyDataSetChanged()
-//                }
-//            }
-//
-//            override fun onError(e: Throwable) {
-//            }
-//        }
-//        chapterList()
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        activityLifecycleObserver.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activityLifecycleObserver.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activityLifecycleObserver.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activityLifecycleObserver.onStop()
     }
 
 
 
 
-//    private fun chapterList(){
-//        val single = RetrofitClient.newInstance().api.chapterList()
-//        disposable = single.ext()
-//            .subscribe({
-//                val errorCode = it.errorCode
-//                if(errorCode == 0){
-//                    val list  = it.data
-//                    val observable = Observable.fromArray(list)
-//                    //将接口返回的数据交给观察者去处理
-//                    observable.subscribeWith(observer)
-//                }
-//            }, {
-//                val message = it.message
-//            })
-//    }
 
     override fun onDestroy() {
         super.onDestroy()
+        activityLifecycleObserver.onDestroy()
+        lifecycle.removeObserver(activityLifecycleObserver)
         if (!disposable.isDisposed) {
             disposable.dispose()
         }

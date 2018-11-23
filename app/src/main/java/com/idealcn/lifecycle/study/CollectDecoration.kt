@@ -39,7 +39,7 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
         textPaint.textSize = 14f
     }
 
-    override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(canvas, parent, state)
         val size = list.size
         if (size<=0) return
