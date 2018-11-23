@@ -16,7 +16,7 @@ class MainViewModel : ViewModel() {
           .flatMap {
               when (it.errorCode){
                   0 -> Observable.just(it.data)
-                  else ->  Observable.error(BaseThrowable(it.errorMsg))
+                  else ->  Observable.error(BaseThrowable(it.errorMsg,it.errorCode))
               }
         }
     }

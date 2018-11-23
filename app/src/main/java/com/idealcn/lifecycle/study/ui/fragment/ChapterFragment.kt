@@ -116,6 +116,7 @@ class ChapterFragment : Fragment() {
 
     private fun loadData() {
         val disposable = RetrofitClient.newInstance().api.chapterHistoryList(chapterId = chapter.id, pageIndex = pageIndex )
+//            .compose(ErrorTransformer<>)
             .ext().subscribe({
                 val errorCode = it.errorCode
                 val data :ArrayList<ChapterHistory.ChapterHistoryChild> = it.data.datas

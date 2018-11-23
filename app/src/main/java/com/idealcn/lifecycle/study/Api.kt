@@ -6,10 +6,7 @@ import com.idealcn.lifecycle.study.bean.*
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface Api {
 
@@ -41,4 +38,14 @@ interface Api {
      */
     @GET("wxarticle/list/{chapterId}/{pageIndex}/json")
     fun chapterHistoryList(@Path("chapterId")chapterId : Int,@Path("pageIndex")pageIndex : Int) : Single<BaseResponseBean<ChapterHistory>>
+
+
+    /**
+     * 注册
+     * http://www.wanandroid.com/user/register
+     */
+    @POST("user/register")
+    @FormUrlEncoded
+    fun register(@Field("username")username :String,@Field("password")password : String,
+                 @Field("repassword")repassword :String) : Single<BaseResponseBean<AppUser>>
 }

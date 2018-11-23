@@ -2,22 +2,26 @@ package com.idealcn.lifecycle.study
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.OnLifecycleEvent
+import com.idealcn.lifecycle.study.ui.MainActivity
 import java.util.logging.Logger
 import javax.inject.Inject
 
 /**
  * @author: guoning
  * @date: 2018/11/23 14:43
- * @description:
+ * @description: 观察Activity生命周期变化
  */
 class ActivityLifecycleObserver : LifecycleObserver {
 
     val logger = Logger.getLogger(this.javaClass.simpleName)
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-   fun onCreate(){
-        logger.info("---------onCreate----------")
+   fun onCreate(owner: LifecycleOwner){
+        logger.info("---------onCreate----------${owner::class.java.simpleName}")
+        owner as MainActivity
+
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

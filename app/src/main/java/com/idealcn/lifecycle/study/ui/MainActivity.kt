@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
                                                     NavigationFragment(),ProgrammeFragment())
 
 
-    private lateinit var  observer :  Observer<List<Chapter>>
 
     val activityLifecycleObserver = ActivityLifecycleObserver()
 
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        activityLifecycleObserver.onCreate()
         lifecycle.addObserver(activityLifecycleObserver)
 //        if (savedInstanceState == null) {
 //            supportFragmentManager.beginTransaction()
@@ -94,22 +92,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        activityLifecycleObserver.onStart()
     }
 
     override fun onResume() {
         super.onResume()
-        activityLifecycleObserver.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        activityLifecycleObserver.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        activityLifecycleObserver.onStop()
     }
 
 
@@ -118,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        activityLifecycleObserver.onDestroy()
+        //移除生命周期观察者
         lifecycle.removeObserver(activityLifecycleObserver)
         if (!disposable.isDisposed) {
             disposable.dispose()

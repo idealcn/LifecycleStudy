@@ -1,19 +1,21 @@
-package com.idealcn.lifecycle.study
+package com.idealcn.lifecycle.study.decoration
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.view.ViewGroup
+import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Article
 import java.util.logging.Logger
 
 /**
  * 用于绘制收藏标记
  */
-class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
+class CollectDecoration(var context: Context) : RecyclerView.ItemDecoration() {
 
 
     private val path : Path = Path()
@@ -28,7 +30,7 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
 
 
     init {
-        pathPaint.color = ContextCompat.getColor(context,R.color.colorAccent)
+        pathPaint.color = ContextCompat.getColor(context, R.color.colorAccent)
         pathPaint.style = Paint.Style.FILL
         pathPaint.strokeWidth = 1f
 
@@ -38,6 +40,8 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
         textPaint.style = Paint.Style.STROKE
         textPaint.textSize = 14f
     }
+
+
 
     override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(canvas, parent, state)
@@ -57,8 +61,7 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
         val childCount = layoutManager.childCount
         for (x in 0 until  childCount){
 
-            val child  : View? = layoutManager.getChildAt(x)
-
+            val child = layoutManager.getChildAt(x)
             child?.let {
                 val childAdapterPosition = parent.getChildAdapterPosition(it)
                 val childLayoutPosition = parent.getChildLayoutPosition(it)
@@ -66,7 +69,7 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
                 if (null==article || !article.collect)return@let
 
                 logger.info("childAdapterPosition: $childAdapterPosition,   childLayoutPosition: $childLayoutPosition")
-                val top = child.top
+                val top = it.top
                 // logger.info("childCount: $x, top : $top")
                 val layoutParams = it.layoutParams as RecyclerView.LayoutParams
                 path.moveTo((parent.width- layoutParams.rightMargin-180).toFloat(), top.toFloat())
@@ -82,7 +85,6 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
                 canvas.drawTextOnPath(text,textPath, (it.height/2 -70).toFloat(),0f,textPaint)
                 textPath.reset()
             }
-
 
         }
     }
