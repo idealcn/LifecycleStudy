@@ -1,6 +1,8 @@
 package com.idealcn.lifecycle.study.ui.mvp.model
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import com.idealcn.lifecycle.study.bean.BaseResponseBean
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.exception.BaseThrowable
 import com.idealcn.lifecycle.study.ext.ext
@@ -21,5 +23,10 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun getArticleList(page : Int) : LiveData<BaseResponseBean<HomeArticleBean>> {
+
+        return  RetrofitClient.newInstance().api.getArticleList(page)
+
+    }
 
 }
