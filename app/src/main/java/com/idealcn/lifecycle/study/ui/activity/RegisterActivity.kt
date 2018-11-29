@@ -1,44 +1,71 @@
 package com.idealcn.lifecycle.study.ui.activity
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.widget.Toast
 import com.idealcn.lifecycle.study.R
-import com.idealcn.lifecycle.study.bean.AppUser
-import com.idealcn.lifecycle.study.http.RetrofitClient
-import com.idealcn.lifecycle.study.rxjava.RxSingleObserver
-import com.idealcn.lifecycle.study.ui.mvp.model.AppUserModel
-import com.idealcn.lifecycle.study.ui.mvp.model.RegisterModel
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.SingleObserver
-import io.reactivex.disposables.Disposable
+import com.idealcn.lifecycle.study.dagger.component.DaggerRegisterComponent
+import com.idealcn.lifecycle.study.ext.gotoAndFinishActivity
+import com.idealcn.lifecycle.study.transformer.RxDialog
+import com.idealcn.lifecycle.study.ui.MainActivity
+import com.idealcn.lifecycle.study.ui.mvp.presenter.RegisterPresenter
+import com.idealcn.lifecycle.study.ui.mvp.view.RegisterView
+import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_register.*
-import org.reactivestreams.Subscriber
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() , RegisterView {
+
+    @Inject
+    lateinit var presenter: RegisterPresenter
+
+    private val compositeDisposable  = CompositeDisposable()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        DaggerRegisterComponent.builder().build().inject(this)
 
-        btnRegister.setOnClickListener {
-            var name  = ""
-            var pwd = ""
-            Observable.just(0)
-                .doOnSubscribe {
-                    name = username.text.toString().trim()
-                    pwd = password.text.toString().trim()
-                }
-                .filter {
-                    TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)
-                }
-           // RetrofitClient.newInstance().api.register()
-        }
+        presenter.attach(this)
+
+       compositeDisposable.add(
+           RxView.clicks(btnRegister).throttleFirst(500,TimeUnit.MILLISECONDS)
+           .subscribe {
+               register()
+           }
+       )
+
+
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detach()
+    }
+
+    override fun showLoadingView() {
+        RxDialog.showProgressDialog(this,"请求中")
+    }
+
+    private fun register(){
+       val name = username.text.toString().trim()
+        val  pwd = password.text.toString().trim()
+        presenter.register(name,pwd,pwd)
+    }
+
+    override fun gotoActivity() {
+        gotoAndFinishActivity(MainActivity::class.java)
+    }
+
+
+    override fun showToast(msg: String) {
+       toast(msg)
+    }
+
+
+   private fun toast(msg :String) = Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
 }

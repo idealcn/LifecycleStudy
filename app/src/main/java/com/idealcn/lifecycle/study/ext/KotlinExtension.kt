@@ -40,7 +40,12 @@ fun <T : Activity> Activity.goto(clazz : Class<T>){
 }
 
 
-fun <T : Activity> Activity.gotoAndFinish(clazz : Class<T>){
+fun <T : Activity> Activity.gotoAndFinishActivity(clazz : Class<T>){
     this.startActivity(Intent(this,clazz))
     this .finish()
+}
+
+
+fun Toast.show(context: Context,msg :String){
+    Toast.makeText(context,msg,Toast.LENGTH_SHORT).show()
 }

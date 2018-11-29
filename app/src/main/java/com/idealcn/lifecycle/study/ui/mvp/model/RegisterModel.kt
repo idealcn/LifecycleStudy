@@ -11,7 +11,7 @@ import io.reactivex.Single
 
 class RegisterModel : ViewModel() {
 
-    fun register(username: String, password: String, repassword: String): Single<AppUser> {
+    fun register(username: String, password: String, repassword: String): Observable<AppUser> {
         return RetrofitClient.newInstance().api.register(username, password, repassword)
             .ext()
             .map(TransformFunction())

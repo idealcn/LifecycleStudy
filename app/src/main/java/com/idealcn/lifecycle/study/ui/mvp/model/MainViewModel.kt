@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
 
       return  RetrofitClient.newInstance().api.articleList(page)
           .ext()
-          .compose(RxErrorHandler.handlerError(AppApplication.getAppContext()))
+          //.compose(RxErrorHandler.handlerError(AppApplication.getAppContext()))
           .doOnSubscribe {
               println("----------------doOnSubscribe-------------------")
               RxDialog.showProgressDialog(AppApplication.getAppContext(),"加载中")
@@ -51,7 +51,7 @@ class MainViewModel : ViewModel() {
     fun loadArticleList(page : Int) : Flowable<HomeArticleBean> {
      return RetrofitClient.newInstance().api.loadArticleList(page)
             .ext()
-            .compose(RxErrorHandler.handlerError(AppApplication.getAppContext()))
+            //.compose(RxErrorHandler.handlerError(AppApplication.getAppContext()))
 
           .flatMap { base ->
                 if (base.errorCode == 200){

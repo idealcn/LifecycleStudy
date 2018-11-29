@@ -21,7 +21,6 @@
         <activity android:name=".ui.ArticleDetailActivity"/>
         <activity android:name=".ui.activity.RegisterActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
-        <activity android:name=".ui.activity.RegisteActivity"/>
         <activity android:name=".ui.MainActivity"/>
     </application>
 

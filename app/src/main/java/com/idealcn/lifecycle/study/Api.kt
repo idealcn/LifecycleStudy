@@ -11,6 +11,15 @@ import retrofit2.http.*
 interface Api {
 
 
+    class ErrorCode {
+        companion object {
+            val CODE_0 = 0//请求成功
+            val CODE_1001 = -1001 //登录失效,需要重新登录
+            val CODE_1 = -1 //请求失败
+        }
+    }
+
+
     //http://www.wanandroid.com/article/list/0/json
     @GET("article/list/{page}/json")
     fun articleList(@Path("page") page : Int) : Observable<BaseResponseBean<HomeArticleBean>>
@@ -52,5 +61,5 @@ interface Api {
     @POST("user/register")
     @FormUrlEncoded
     fun register(@Field("username")username :String,@Field("password")password : String,
-                 @Field("repassword")repassword :String) : Single<BaseResponseBean<AppUser>>
+                 @Field("repassword")repassword :String) : Observable<BaseResponseBean<AppUser>>
 }

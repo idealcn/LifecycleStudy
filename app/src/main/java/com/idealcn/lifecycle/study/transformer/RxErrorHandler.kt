@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import org.json.JSONException
 
 object RxErrorHandler {
-      fun <T> handlerError(context: Context) : GlobalErrorTransformer<BaseResponseBean<T>> = GlobalErrorTransformer(
+      fun <T> handlerError(activity: FragmentActivity) : GlobalErrorTransformer<BaseResponseBean<T>> = GlobalErrorTransformer(
 
           upStreamSchedulerProvider = {AndroidSchedulers.mainThread()},
 
@@ -18,17 +18,17 @@ object RxErrorHandler {
           globalDoOnErrorConsumer = { error ->
                 when (error) {
                     is JSONException -> {
-                        Toast.makeText(context, "全局异常捕获-Json解析异常！", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "全局异常捕获-Json解析异常！", Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-
+                        Toast.makeText(activity, "${error.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
           },
           retryConfigProvider = { error ->
               when(error){
                   is ConnectFailedAlertDialogException -> RetryConfig{
-                    RxDialog.showErrorDialog(context,"ConnectionException")
+                    RxDialog.showErrorDialog(activity,"ConnectionException")
                   }
 //                  is TokenExpiredException -> RetryConfig(delay = 3000){
 //
@@ -41,7 +41,7 @@ object RxErrorHandler {
               Observable.just(bean)
           },
           //拦截错误
-          globalOnErrorResume = { throwable ->
+          globalOnErrorResume = { _ ->
              Observable.empty<BaseResponseBean<T>>()
           }
 
