@@ -1,4 +1,4 @@
-package com.idealcn.lifecycle.study
+package com.idealcn.lifecycle.study.http
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.idealcn.lifecycle.study;
+package com.idealcn.lifecycle.study.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -9,14 +9,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.idealcn.lifecycle.study.CollectDecoration
+import com.idealcn.lifecycle.study.decoration.CollectDecoration
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.ui.ArticleDetailActivity
 import com.idealcn.lifecycle.study.ui.adapter.HomeArticleAdapter
 import com.idealcn.lifecycle.study.ui.mvp.model.MainViewModel
 import com.idealcn.lifecycle.study.ui.mvp.view.MainView
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -27,7 +26,7 @@ class MainFragment : BaseFragment(),MainView {
     private var page = 0
 
 
-    private lateinit var decoration :CollectDecoration
+    private lateinit var decoration : CollectDecoration
 
 
 

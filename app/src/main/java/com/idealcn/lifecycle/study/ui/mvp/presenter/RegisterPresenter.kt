@@ -1,9 +1,7 @@
 package com.idealcn.lifecycle.study.ui.mvp.presenter
 
 import android.text.TextUtils
-import com.idealcn.lifecycle.study.Api
-import com.idealcn.lifecycle.study.bean.AppUser
-import com.idealcn.lifecycle.study.bean.BaseResponseBean
+import com.idealcn.lifecycle.study.http.Api
 import com.idealcn.lifecycle.study.ext.ext
 import com.idealcn.lifecycle.study.http.RetrofitClient
 import com.idealcn.lifecycle.study.ui.mvp.contract.RegisterContract
@@ -11,7 +9,6 @@ import com.idealcn.lifecycle.study.ui.mvp.view.RegisterView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import java.lang.ref.WeakReference
 import javax.inject.Inject

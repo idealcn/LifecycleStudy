@@ -1,6 +1,5 @@
 package com.idealcn.lifecycle.study.http;
 
-import com.idealcn.lifecycle.study.Api;
 import com.idealcn.lifecycle.study.converter.LiveDataCallAdapterFactory;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

@@ -1,4 +1,4 @@
-package com.idealcn.lifecycle.study
+package com.idealcn.lifecycle.study.decoration
 
 import android.content.Context
 import android.graphics.*
@@ -6,7 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.view.ViewGroup
+import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Article
 import java.util.logging.Logger
 
@@ -28,7 +28,7 @@ class CollectDecoration( context: Context) : RecyclerView.ItemDecoration() {
 
 
     init {
-        pathPaint.color = ContextCompat.getColor(context,R.color.colorAccent)
+        pathPaint.color = ContextCompat.getColor(context, R.color.colorAccent)
         pathPaint.style = Paint.Style.FILL
         pathPaint.strokeWidth = 1f
 
