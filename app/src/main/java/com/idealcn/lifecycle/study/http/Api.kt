@@ -19,6 +19,17 @@ interface Api {
         }
     }
 
+    /**
+     * http://www.wanandroid.com/user/login
+     * 方法：POST
+     * 参数：
+     *     username，password
+     *  登录后会在cookie中返回账号密码，只要在客户端做cookie持久化存储即可自动登录验证。
+     */
+    @POST("user/login")
+    @FormUrlEncoded
+    fun login(@Field("username")username: String,@Field("password")password: String) : Observable<BaseResponseBean<ResponseLoginBean>>
+
 
     //http://www.wanandroid.com/article/list/0/json
     @GET("article/list/{page}/json")

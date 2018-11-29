@@ -11,6 +11,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 fun <T>  Single<T>.ext() : Single<T>{
@@ -48,4 +49,9 @@ fun <T : Activity> Activity.gotoAndFinishActivity(clazz : Class<T>){
 
 fun Toast.show(context: Context,msg :String){
     Toast.makeText(context,msg,Toast.LENGTH_SHORT).show()
+}
+
+
+fun <T> Observable<T>.throttled() : Observable<T> {
+    return this.throttleFirst(500,TimeUnit.MILLISECONDS)
 }

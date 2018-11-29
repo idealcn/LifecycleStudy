@@ -79,6 +79,8 @@ class RegisterPresenter @Inject constructor() : RegisterContract.Presenter {
     }
 
 
+
+
     private fun show(msg : String,errorCode :Int) {
         val registerView : RegisterView? = rootView.get()
         registerView?.let {
