@@ -73,6 +73,7 @@ class SplashActivity : AppCompatActivity() {
                 .map {
                     index - it
                 }
+                .observeOn(AndroidSchedulers.mainThread())
                 .filter {
                     btnTimer.text = "$it"
                     it.toInt() == 1
