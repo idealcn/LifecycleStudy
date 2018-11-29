@@ -100,9 +100,10 @@ dependencies {
     implementation "com.google.dagger:dagger:$version_dagger"
     kapt "com.google.dagger:dagger-compiler:$version_dagger"
     //android-dagger
-    implementation "com.google.dagger:dagger-android:$version_dagger"
-    implementation "com.google.dagger:dagger-android-support:$version_dagger"
-    kapt "com.google.dagger:dagger-android-processor:$version_dagger"
+    def VERSION_ANDROID_DAGGER = "2.19"
+    implementation "com.google.dagger:dagger-android:$VERSION_ANDROID_DAGGER"
+    implementation "com.google.dagger:dagger-android-support:$VERSION_ANDROID_DAGGER"
+    kapt "com.google.dagger:dagger-android-processor:$VERSION_ANDROID_DAGGER"
 
 
     //rxbinding
