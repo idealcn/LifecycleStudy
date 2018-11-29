@@ -7,9 +7,11 @@ import android.text.TextUtils
 import android.widget.Toast
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.AppUser
+import com.idealcn.lifecycle.study.http.RetrofitClient
 import com.idealcn.lifecycle.study.rxjava.RxSingleObserver
 import com.idealcn.lifecycle.study.ui.mvp.model.AppUserModel
 import com.idealcn.lifecycle.study.ui.mvp.model.RegisterModel
+import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
@@ -23,27 +25,19 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        val model = ViewModelProviders.of(this).get(RegisterModel::class.java)
-        val appUserModel = ViewModelProviders.of(this).get(AppUserModel::class.java)
-
 
         btnRegister.setOnClickListener {
-            val username = username.text.toString().trim()
-           if (TextUtils.isEmpty(username))
-               return@setOnClickListener
-            val password = password.text.toString().trim()
-            if (TextUtils.isEmpty(password))
-                return@setOnClickListener
-
-
-            //去注册
-            model.register(username,password,password)
-                .subscribeWith(RxSingleObserver<AppUser>(object  : RxSingleObserver.Companion.RxCallback<AppUser>{
-                    override fun success(data: AppUser) {
-
-                    }
-
-                }))
+            var name  = ""
+            var pwd = ""
+            Observable.just(0)
+                .doOnSubscribe {
+                    name = username.text.toString().trim()
+                    pwd = password.text.toString().trim()
+                }
+                .filter {
+                    TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)
+                }
+           // RetrofitClient.newInstance().api.register()
         }
     }
 

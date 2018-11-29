@@ -1,6 +1,8 @@
 package com.idealcn.lifecycle.study.ui.adapter
 
 import android.content.Context
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Article
+import com.idealcn.lifecycle.study.databinding.AdapterHomeArticleBinding
 
 class HomeArticleAdapter constructor(  context: Context) : RecyclerView.Adapter<HomeArticleAdapter.ArticleHolder>() {
 
@@ -26,7 +29,9 @@ class HomeArticleAdapter constructor(  context: Context) : RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleHolder {
-        return ArticleHolder(inflater.inflate(R.layout.adapter_home_article, parent, false))
+        val binding =
+            DataBindingUtil.inflate<AdapterHomeArticleBinding>(inflater, R.layout.adapter_home_article, parent, false)
+        return ArticleHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -34,9 +39,13 @@ class HomeArticleAdapter constructor(  context: Context) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ArticleHolder, position: Int) {
+        val binding = holder.binding
         val article = articleList[holder.layoutPosition]
-        holder.author.text = article.author
-        holder.chapterName.text = article.chapterName
+
+        binding.article = article
+
+//        holder.author.text = article.author
+//        holder.chapterName.text = article.chapterName
         holder.itemView.tag = holder.layoutPosition
         holder.itemView.setOnClickListener {
             val tag = holder.itemView.tag
@@ -58,8 +67,8 @@ class HomeArticleAdapter constructor(  context: Context) : RecyclerView.Adapter<
         return articleList
     }
 
-    inner class ArticleHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val chapterName: TextView = itemView.findViewById(R.id.chapterName)
-        val author: TextView = itemView.findViewById(R.id.author)
+    inner class ArticleHolder(var binding: AdapterHomeArticleBinding) : RecyclerView.ViewHolder(binding.root) {
+        val chapterName: TextView = binding.chapterName//itemView.findViewById(R.id.chapterName)
+        val author: TextView = binding.author//itemView.findViewById(R.id.author)
     }
 }

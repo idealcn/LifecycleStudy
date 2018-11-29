@@ -16,6 +16,7 @@ import com.idealcn.lifecycle.study.ui.ArticleDetailActivity
 import com.idealcn.lifecycle.study.ui.adapter.HomeArticleAdapter
 import com.idealcn.lifecycle.study.ui.mvp.model.MainViewModel
 import com.idealcn.lifecycle.study.ui.mvp.view.MainView
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -27,6 +28,8 @@ class MainFragment : BaseFragment(),MainView {
 
 
     private lateinit var decoration :CollectDecoration
+
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,16 +65,23 @@ class MainFragment : BaseFragment(),MainView {
 //            .homeArticleList(page)
 //            .subscribeWith(observer)
 
-        viewModel.getArticleList(page)
-            .observe(this,android.arch.lifecycle.Observer {
-                it?.let { baseResponseBean ->
+//        viewModel.getArticleList(page)
+//            .observe(this,android.arch.lifecycle.Observer {
+//                it?.let { baseResponseBean ->
+//
+//                    val data = baseResponseBean.data
+//                    val list = data.datas
+//                    decoration.setData(decoration.getData().size,list)
+//                    articleAdapter.setData(articleAdapter.getData().size,list)
+//                }
+//
+//            })
 
-                    val data = baseResponseBean.data
-                    val list = data.datas
-                    decoration.setData(decoration.getData().size,list)
-                    articleAdapter.setData(articleAdapter.getData().size,list)
-                }
-
+        compositeDisposable.add(viewModel.homeArticleList(page)
+            .subscribe { bean ->
+                val list = bean.datas
+                decoration.setData(decoration.getData().size,list)
+                articleAdapter.setData(articleAdapter.getData().size,list)
             })
     }
 

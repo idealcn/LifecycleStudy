@@ -3,6 +3,7 @@
           package="com.idealcn.lifecycle.study">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+            android:name=".AppApplication"
             android:usesCleartextTraffic="true"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -10,7 +11,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -20,6 +21,8 @@
         <activity android:name=".ui.ArticleDetailActivity"/>
         <activity android:name=".ui.activity.RegisterActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
+        <activity android:name=".ui.activity.RegisteActivity"/>
+        <activity android:name=".ui.MainActivity"/>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.reactivex.disposables.CompositeDisposable
 import java.util.logging.Logger
 
 abstract  class BaseFragment : Fragment() {
@@ -13,6 +14,8 @@ abstract  class BaseFragment : Fragment() {
     protected val logger : Logger = Logger.getLogger("BaseFragment");
 
     protected lateinit var _context : Context
+
+    protected val compositeDisposable = CompositeDisposable()
 
     protected var isViewCreated = false
 
@@ -85,6 +88,7 @@ abstract  class BaseFragment : Fragment() {
         logger.info("--------onDestroyView--------")
         userVisibleHint = false
         isViewCreated = false
+        compositeDisposable.dispose()
     }
 
     override fun onDestroy() {

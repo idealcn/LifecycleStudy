@@ -18,6 +18,9 @@ interface Api {
     @GET("article/list/{page}/json")
     fun getArticleList(@Path("page") page : Int) : LiveData<BaseResponseBean<HomeArticleBean>>
 
+    @GET("article/list/{page}/json")
+    fun loadArticleList(@Path("page") page : Int) : Flowable<BaseResponseBean<HomeArticleBean>>
+
     /**
      * http://www.wanandroid.com/lg/collect/1165/json
      * 收藏文章

@@ -14,18 +14,20 @@ import com.idealcn.lifecycle.study.ui.fragment.MainFragment
 import com.idealcn.lifecycle.study.ui.fragment.NavigationFragment
 import com.idealcn.lifecycle.study.ui.fragment.ProgrammeFragment
 import io.reactivex.Observer
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity() {
 
 
-    private lateinit var      disposable: Disposable
+//    private lateinit var      disposable: Disposable
 
     private val chapterList : ArrayList<Chapter> = arrayListOf()
     private val fragmentList  = listOf<Fragment>(MainFragment(),KnowledgeFragment(),
                                                     NavigationFragment(),ProgrammeFragment())
 
+    private val compositeDisposable = CompositeDisposable()
 
 
     val activityLifecycleObserver = ActivityLifecycleObserver()
@@ -114,9 +116,9 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         //移除生命周期观察者
         lifecycle.removeObserver(activityLifecycleObserver)
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-        }
+//        if (!disposable.isDisposed) {
+//            disposable.dispose()
+//        }
 
     }
 

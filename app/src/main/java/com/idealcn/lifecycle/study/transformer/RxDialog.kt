@@ -2,6 +2,7 @@ package com.idealcn.lifecycle.study.transformer
 
 import android.content.Context
 import android.support.v7.app.AlertDialog
+import io.reactivex.Observable
 import io.reactivex.Single
 
 object RxDialog {
@@ -20,6 +21,19 @@ object RxDialog {
                     .setPositiveButton("重试") { _, _ -> emitter.onSuccess(true) }
                     .setNegativeButton("取消") { _, _ -> emitter.onSuccess(false) }
                     .show()
+        }
+    }
+
+
+    fun showProgressDialog(context: Context,message: String) : Observable<Boolean> {
+        return Observable.create { emitter ->
+            AlertDialog.Builder(context)
+                .setTitle("")
+                .setMessage(message)
+                .setCancelable(true)
+                .setNegativeButton("取消"){ _,_ ->
+                    emitter.onNext(false)
+                }.show()
         }
     }
 }
