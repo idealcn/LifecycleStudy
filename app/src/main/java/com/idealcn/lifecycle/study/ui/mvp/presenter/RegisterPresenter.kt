@@ -40,7 +40,8 @@ class RegisterPresenter @Inject constructor() : RegisterContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap { t ->
                     if (t)
-                        RetrofitClient.newInstance().api.register(name,pwd,pwd1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        RetrofitClient.newInstance().api.register(name,pwd,pwd1)
+                            .ext()
                             .doOnSubscribe {
                                 show("请求中",1)
                             }

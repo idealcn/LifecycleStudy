@@ -1,5 +1,7 @@
 package com.idealcn.lifecycle.study
 
+import com.idealcn.lifecycle.study.room.AppRoomDatabase
+
 object AppHelper {
 
 
@@ -7,5 +9,10 @@ object AppHelper {
 
 
         return false
+    }
+
+
+    fun getDatabase() : AppRoomDatabase {
+        return AppApplication.getDatabase()
     }
 }

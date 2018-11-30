@@ -1,10 +1,10 @@
 package com.idealcn.lifecycle.study.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.idealcn.lifecycle.study.R
+import com.idealcn.lifecycle.study.base.BaseActivity
 import com.idealcn.lifecycle.study.dagger.component.DaggerLoginComponent
 import com.idealcn.lifecycle.study.ext.goto
 import com.idealcn.lifecycle.study.ext.gotoAndFinishActivity
@@ -13,13 +13,14 @@ import com.idealcn.lifecycle.study.ui.MainActivity
 import com.idealcn.lifecycle.study.ui.mvp.presenter.LoginPresenter
 import com.idealcn.lifecycle.study.ui.mvp.view.LoginView
 import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_login.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity(),LoginView {
+class LoginActivity : BaseActivity(),LoginView {
+    override fun getLayout(): Int {
+        return R.layout.activity_login
+    }
 
 
     companion object {
@@ -33,7 +34,7 @@ class LoginActivity : AppCompatActivity(),LoginView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        //setContentView(R.layout.activity_login)
             DaggerLoginComponent.builder().build().inject(this)
 
         presenter.attach(this)
@@ -54,6 +55,7 @@ class LoginActivity : AppCompatActivity(),LoginView {
     }
 
     override fun showToast(msg: String) {
+        toast(msg)
     }
 
     override fun gotoActivity() {
@@ -61,6 +63,7 @@ class LoginActivity : AppCompatActivity(),LoginView {
     }
 
     override fun showLoadingView() {
+       // toast("请求中...")
     }
 
 

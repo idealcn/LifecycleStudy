@@ -1,6 +1,7 @@
 package com.idealcn.lifecycle.study.ui.mvp.presenter
 
 import android.text.TextUtils
+import com.idealcn.lifecycle.study.AppHelper
 import com.idealcn.lifecycle.study.ext.ext
 import com.idealcn.lifecycle.study.http.Api
 import com.idealcn.lifecycle.study.http.RetrofitClient
@@ -44,6 +45,9 @@ class LoginPresenter @Inject constructor() : LoginContract.Presenter<LoginView> 
                 .flatMap {
                     if (it) {
                         RetrofitClient.newInstance().api.login(username!!, password!!).ext()
+                            .doOnSubscribe {
+                                show("登录中",1)
+                            }
                     } else {
                         Observable.empty()
                     }
@@ -53,6 +57,9 @@ class LoginPresenter @Inject constructor() : LoginContract.Presenter<LoginView> 
                     val errorMsg = next.errorMsg
                     val data = next.data
                     show(errorMsg,errorCode)
+                    if (errorCode==Api.ErrorCode.CODE_0){
+                        AppHelper.getDatabase().useAppDao().saveAppUer(data)
+                    }
                 }, { throwable ->
                     println(throwable.message)
                 }, {})
@@ -70,7 +77,7 @@ class LoginPresenter @Inject constructor() : LoginContract.Presenter<LoginView> 
                     loginView.gotoActivity()
                 }
                 1 ->{
-                    loginView.showLoadingView()
+                   // loginView.showLoadingView()
                 }
                 else -> {
 

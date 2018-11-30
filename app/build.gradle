@@ -16,6 +16,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //room数据库导出
+        javaCompileOptions {
+                         annotationProcessorOptions {
+                                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                             }
+                     }
     }
     buildTypes {
         release {
@@ -111,6 +118,14 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding:$VERSION_RXBINDING"
     implementation "com.jakewharton.rxbinding2:rxbinding-support-v4:$VERSION_RXBINDING"
     implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$VERSION_RXBINDING"
+
+
+        //room数据库
+        def room_version = "1.1.1"
+         implementation "android.arch.persistence.room:runtime:$room_version"
+         kapt "android.arch.persistence.room:compiler:$room_version"
+         // optional - RxJava support for Room
+         implementation "android.arch.persistence.room:rxjava2:$room_version"
 
 
 }
