@@ -100,17 +100,17 @@ dependencies {
     implementation "com.google.dagger:dagger:$version_dagger"
     kapt "com.google.dagger:dagger-compiler:$version_dagger"
     //android-dagger
-    def VERSION_ANDROID_DAGGER = "2.19"
-    implementation "com.google.dagger:dagger-android:$VERSION_ANDROID_DAGGER"
-    implementation "com.google.dagger:dagger-android-support:$VERSION_ANDROID_DAGGER"
-    kapt "com.google.dagger:dagger-android-processor:$VERSION_ANDROID_DAGGER"
+    //def VERSION_ANDROID_DAGGER = "2.19"
+    implementation "com.google.dagger:dagger-android:$version_dagger"
+    implementation "com.google.dagger:dagger-android-support:$version_dagger"
+    kapt "com.google.dagger:dagger-android-processor:$version_dagger"
 
 
     //rxbinding
     def VERSION_RXBINDING = "2.1.1"
-    compile "com.jakewharton.rxbinding2:rxbinding:$VERSION_RXBINDING"
-    compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$VERSION_RXBINDING"
-    compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$VERSION_RXBINDING"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$VERSION_RXBINDING"
+    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4:$VERSION_RXBINDING"
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$VERSION_RXBINDING"
 
 
 }
