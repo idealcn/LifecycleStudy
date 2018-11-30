@@ -88,7 +88,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-jackson:$VERSION_RETROFIT"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$VERSION_RETROFIT"
     //rxjava2
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     //gson
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -107,7 +107,7 @@ dependencies {
 
 
     //rxbinding
-    def VERSION_RXBINDING = "2.0.0"
+    def VERSION_RXBINDING = "2.1.1"
     compile "com.jakewharton.rxbinding2:rxbinding:$VERSION_RXBINDING"
     compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$VERSION_RXBINDING"
     compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$VERSION_RXBINDING"
