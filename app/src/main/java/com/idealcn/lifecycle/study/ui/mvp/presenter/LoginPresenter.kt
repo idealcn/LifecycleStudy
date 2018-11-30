@@ -1,12 +1,15 @@
 package com.idealcn.lifecycle.study.ui.mvp.presenter
 
+import android.arch.lifecycle.ViewModelProviders
 import android.text.TextUtils
 import com.idealcn.lifecycle.study.AppHelper
 import com.idealcn.lifecycle.study.ext.ext
 import com.idealcn.lifecycle.study.http.Api
 import com.idealcn.lifecycle.study.http.RetrofitClient
+import com.idealcn.lifecycle.study.ui.activity.LoginActivity
 import com.idealcn.lifecycle.study.ui.mvp.contract.BaseContract
 import com.idealcn.lifecycle.study.ui.mvp.contract.LoginContract
+import com.idealcn.lifecycle.study.ui.mvp.model.LoginModel
 import com.idealcn.lifecycle.study.ui.mvp.view.LoginView
 import com.idealcn.lifecycle.study.ui.mvp.view.RegisterView
 import io.reactivex.Observable
@@ -39,12 +42,15 @@ class LoginPresenter @Inject constructor() : LoginContract.Presenter<LoginView> 
     }
 
     override fun login(username: String?, password: String?) {
+
         compositeDisposable.add(
             Observable.just(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password))
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap {
                     if (it) {
-                        RetrofitClient.newInstance().api.login(username!!, password!!).ext()
+                        ViewModelProviders.of(weakReference.get() as LoginActivity)
+                            .get(LoginModel::class.java)
+                            .login(username,password)
                             .doOnSubscribe {
                                 show("登录中",1)
                             }
@@ -58,7 +64,9 @@ class LoginPresenter @Inject constructor() : LoginContract.Presenter<LoginView> 
                     val data = next.data
                     show(errorMsg,errorCode)
                     if (errorCode==Api.ErrorCode.CODE_0){
-                        AppHelper.getDatabase().useAppDao().saveAppUer(data)
+                        ViewModelProviders.of(weakReference.get() as LoginActivity)
+                            .get(LoginModel::class.java)
+                            .saveUser(data)
                     }
                 }, { throwable ->
                     println(throwable.message)

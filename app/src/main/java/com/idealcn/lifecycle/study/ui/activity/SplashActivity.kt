@@ -48,7 +48,7 @@ class SplashActivity : AppCompatActivity() {
                 }
                 .map {
                     //倒计时和登录状态
-                    it && AppHelper.hasLogin()
+                    it && AppHelper.getHelper().hasLogin()
                 }
                 .subscribe( {
                     if (it){
@@ -77,7 +77,7 @@ class SplashActivity : AppCompatActivity() {
                     it.toInt() == 1
                 }
                 .map {
-                   AppHelper.hasLogin()
+                   AppHelper.getHelper().hasLogin()
                 }
                 .subscribe {
                    if (it)
