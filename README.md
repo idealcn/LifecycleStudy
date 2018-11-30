@@ -35,3 +35,64 @@ def room_version = "2.1.0-alpha02"
     // optional - RxJava support for Room
     implementation "androidx.room:room-rxjava2:$room_version"
 ```
+参考博客: https://www.cnblogs.com/littlepanpc/p/9269549.html
+
+
+# material design
+
+## DrawerLayout
+ 参考官方文档:https://developer.android.google.cn/training/implementing-navigation/nav-drawer
+ 
+ 
+ 
+# 参考项目
+https://github.com/git-xuhao/KotlinMvp
+https://github.com/MindorksOpenSource/android-mvvm-architecture
+https://github.com/iammert/AndroidArchitecture
+https://github.com/jenly1314/WanAndroid
+https://github.com/jshvarts/OfflineSampleApp
+https://github.com/KunMinX/android-viabus-architecture
+[直播间送礼物控件](https://github.com/jenly1314/GiftSurfaceView)
+https://github.com/pedrovgs/EffectiveAndroidUI
+https://github.com/sockeqwe/mosby
+[阅读器](https://github.com/smuyyh/BookReader)
+https://github.com/chentao0707/SimplifyReader
+https://github.com/uber/RIBs
+https://github.com/ivacf/archi
+https://github.com/TommyLemon/Android-ZBLibrary
+https://github.com/codeestX/GeekNews
+https://github.com/Bilibili/boxing
+https://github.com/GitLqr/LQRWeChat
+https://github.com/esoxjem/MovieGuide
+https://github.com/jaydenxiao2016/AndroidFire
+[仿微信朋友圈](https://github.com/Naoki2015/CircleDemo)
+https://github.com/BaronZ88/MinimalistWeather
+https://github.com/rallat/EffectiveAndroid
+https://github.com/iMeiji/Toutiao
+[咕咚翻译](https://github.com/maoruibin/TranslateApp)
+[全民直播](https://github.com/jenly1314/KingTV)
+[ColorfulNews](https://github.com/kaku2015/ColorfulNews)
+https://github.com/UCodeUStory/S-MVP
+[仿京东商城](https://github.com/liu-xiao-dong/JD-Test)
+https://github.com/woxingxiao/GracefulMovies
+[EasyReader](https://github.com/laotan7237/EasyReader)
+[虎扑体育](https://github.com/gzsll/TLint)
+https://github.com/liuyanggithub/SuperMvp
+
+
+
+
+
+
+
+
+
+
+
+
+# 心得
+1. 架构能力
+2. 做几款不同类型的App
+3. 主流开源框架深入原理
+4. android基础要点深刻掌握原理
+5. 学习能力和解决问题的能力

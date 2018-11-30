@@ -6,10 +6,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.idealcn.lifecycle.study.ui.mvp.contract.BaseContract
 import io.reactivex.disposables.CompositeDisposable
 import java.util.logging.Logger
 
-abstract  class BaseFragment : Fragment() {
+abstract  class BaseFragment<V : BaseContract.BaseView> : Fragment() {
 
     protected val logger : Logger = Logger.getLogger("BaseFragment");
 
@@ -18,6 +19,8 @@ abstract  class BaseFragment : Fragment() {
     protected val compositeDisposable = CompositeDisposable()
 
     protected var isViewCreated = false
+
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

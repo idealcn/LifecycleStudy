@@ -26,7 +26,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:id="@+id/homeRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp">
 
         </android.support.v7.widget.RecyclerView>
 

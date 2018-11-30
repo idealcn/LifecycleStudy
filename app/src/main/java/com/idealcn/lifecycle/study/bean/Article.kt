@@ -13,7 +13,24 @@ data class Article(var apkLink:String,
                    var fresh : Boolean,
                    var id : Int,
                     var link : String,
-                   var title:String) : Serializable
+                   var niceDate :String,
+                   var origin : String,
+                   var projectLink : String,
+
+                   var publishTime : Long,
+                   var superChapterId : Int,
+                   var superChapterName : String,
+
+                   var tags : List<Tag>,
+
+                   var type :Int,
+                   var userId : Int,
+                   var visible :Int,
+                   var zan : Int,
+                   var title:String) : Serializable{
+
+    data class Tag(var name:String,var url : String)
+}
     /*
     "apkLink": "",
                 "author": "ManbangGroup",

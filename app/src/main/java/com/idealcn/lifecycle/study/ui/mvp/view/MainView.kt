@@ -1,4 +1,6 @@
 package com.idealcn.lifecycle.study.ui.mvp.view
 
-interface MainView {
+import com.idealcn.lifecycle.study.ui.mvp.contract.MainContract
+
+interface MainView : MainContract.View {
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,18 +15,7 @@
             android:layout_height="match_parent"
             tools:context=".ui.MainActivity">
 
-        <android.support.design.widget.TabLayout
-                android:visibility="gone"
-                app:tabIndicatorColor="@color/colorPrimary"
-                app:tabMode="scrollable"
-                android:id="@+id/homeTabLayout"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
 
-        </android.support.design.widget.TabLayout>
 
 
         <android.support.v7.widget.Toolbar
@@ -55,6 +45,8 @@
         </android.support.v4.view.ViewPager>
 
         <android.support.design.widget.BottomNavigationView
+                android:overScrollMode="never"
+                android:layoutMode="clipBounds"
                 app:elevation="16dp"
                 app:itemIconTint="@drawable/nav_item_color_state"
                 app:itemTextColor="@drawable/nav_item_color_state"
@@ -74,7 +66,7 @@
             android:id="@+id/drawContainer"
             android:layout_gravity="left"
             android:background="#dfdfdf"
-            android:layout_width="360dp"
+            android:layout_width="220dp"
             android:layout_height="match_parent">
 
     </FrameLayout>

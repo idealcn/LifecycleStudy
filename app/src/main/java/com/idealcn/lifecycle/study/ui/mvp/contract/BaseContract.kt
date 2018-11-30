@@ -7,6 +7,7 @@ package com.idealcn.lifecycle.study.ui.mvp.contract
  */
 interface BaseContract {
     interface BasePresenter<V : BaseView>{
+
         fun  attach(view : V)
     }
 

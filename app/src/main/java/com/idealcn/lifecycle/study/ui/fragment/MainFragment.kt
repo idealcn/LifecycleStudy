@@ -19,7 +19,7 @@ import com.idealcn.lifecycle.study.ui.mvp.view.MainView
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class MainFragment : BaseFragment(),MainView {
+class MainFragment : BaseFragment<MainView>(),MainView {
 
     private lateinit var articleAdapter  : HomeArticleAdapter
 

@@ -1,8 +1,9 @@
 package com.idealcn.lifecycle.study.ui.fragment
 
 import com.idealcn.lifecycle.study.R
+import com.idealcn.lifecycle.study.ui.mvp.view.MainView
 
-class NavigationFragment : BaseFragment() {
+class NavigationFragment : BaseFragment<MainView>() {
     override fun loadData() {
 
 
