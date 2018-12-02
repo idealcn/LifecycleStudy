@@ -7,6 +7,8 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor() : MainContract.Presenter<MainView>{
+    override fun detach() {
+    }
 
     private lateinit var weakReference: WeakReference<MainView>
 

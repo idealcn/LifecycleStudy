@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.idealcn.lifecycle.study.ui.mvp.contract.BaseContract
 import io.reactivex.disposables.CompositeDisposable
 import java.util.logging.Logger
@@ -51,8 +52,14 @@ abstract  class BaseFragment<V : BaseContract.BaseView> : Fragment() {
         logger.info("--------onViewCreated--------")
         isViewCreated = true
         userVisibleHint = true
+       // init()
         initViews()
     }
+
+    /**
+     * 做一些必要的初始化操作
+     */
+    abstract fun init()
 
     abstract fun initViews()
 
@@ -106,5 +113,8 @@ abstract  class BaseFragment<V : BaseContract.BaseView> : Fragment() {
 
     }
 
+
+
+    fun toast(msg : String) = Toast.makeText(_context,msg,Toast.LENGTH_SHORT).show()
 
 }

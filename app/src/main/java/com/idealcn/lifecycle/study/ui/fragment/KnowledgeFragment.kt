@@ -4,6 +4,9 @@ import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.ui.mvp.view.MainView
 
 class KnowledgeFragment : BaseFragment<MainView>() {
+    override fun init() {
+    }
+
     override fun initViews() {
     }
 

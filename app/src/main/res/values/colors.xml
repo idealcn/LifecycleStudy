@@ -9,6 +9,9 @@
     <color name="line_divider">@color/Grey300</color>
     <color name="list_divider">@color/Grey400</color>
 
+
+    <color name="themeColor">#2c2c2c</color>
+
     <!-- item -->
     <color name="common_color">#19191B</color>
     <color name="item_title">#19191B</color>

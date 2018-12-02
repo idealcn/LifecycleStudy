@@ -13,7 +13,9 @@ import com.idealcn.lifecycle.study.ActivityLifecycleObserver
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Chapter
 import com.idealcn.lifecycle.study.ui.fragment.*
+import com.idealcn.lifecycle.study.ui.mvp.contract.BaseContract
 import com.idealcn.lifecycle.study.ui.mvp.presenter.MainPresenter
+import com.idealcn.lifecycle.study.ui.mvp.view.HomeView
 import com.idealcn.lifecycle.study.ui.mvp.view.MainView
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
@@ -26,9 +28,9 @@ class MainActivity : AppCompatActivity() {
 
 //    private lateinit var      disposable: Disposable
 
-    private val chapterList : ArrayList<Chapter> = arrayListOf()
-    private val fragmentList  = listOf<BaseFragment<MainView>>(MainFragment(),KnowledgeFragment(),
-                                                    NavigationFragment(),ProgrammeFragment())
+    private val chapterList: ArrayList<Chapter> = arrayListOf()
+//    private val fragmentList  = listOf<BaseFragment<BaseContract.BaseView>>(MainFragment<HomeView>(),KnowledgeFragment(),
+//                                                    NavigationFragment(),ProgrammeFragment())
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     @Inject
-     lateinit var presenter : MainPresenter
+    lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +54,10 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 
-
-        actionBarDrawerToggle = object : ActionBarDrawerToggle(this,drawerLayout,toolBar,
-            R.string.navigation,R.string.collect){
+        actionBarDrawerToggle = object : ActionBarDrawerToggle(
+            this, drawerLayout, toolBar,
+            R.string.navigation, R.string.collect
+        ) {
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
 
@@ -69,13 +72,31 @@ class MainActivity : AppCompatActivity() {
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
 
-        homePager.adapter = object : FragmentPagerAdapter(supportFragmentManager){
+        homePager.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
-                val fragment : BaseFragment<MainView> = fragmentList[position]
-                return fragment
+//                val fragment : BaseFragment<MainView> = fragmentList[position]
+//                return fragment
+                return when (position) {
+                    0 -> {
+                        MainFragment()
+                    }
+                    1 -> {
+                        KnowledgeFragment()
+                    }
+                    2 -> {
+                        NavigationFragment()
+                    }
+                    3 -> {
+                        ProgrammeFragment()
+                    }
+                    else -> {
+                        MainFragment()
+                    }
+                }
             }
+
             override fun getCount(): Int {
-                return fragmentList.size
+                return 4
             }
 
             override fun getPageTitle(position: Int): CharSequence? {
@@ -83,30 +104,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener (object : BottomNavigationView.OnNavigationItemSelectedListener{
+        bottomNavigationView.setOnNavigationItemSelectedListener(object :
+            BottomNavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
                 when (item.itemId) {
                     R.id.action_home -> {
-                        homePager.setCurrentItem(0,true)
+                        homePager.setCurrentItem(0, true)
                     }
 
                     R.id.action_knowledge_system -> {
-                        homePager.setCurrentItem(1,true)
+                        homePager.setCurrentItem(1, true)
                     }
 
                     R.id.action_navigation -> {
-                        homePager.setCurrentItem(2,true)
+                        homePager.setCurrentItem(2, true)
 
                     }
 
 
                     R.id.action_project -> {
-                        homePager.setCurrentItem(3,true)
+                        homePager.setCurrentItem(3, true)
 
                     }
                     else -> {
-                        homePager.setCurrentItem(0,true)
+                        homePager.setCurrentItem(0, true)
                     }
                 }
                 return true
@@ -129,7 +151,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)){
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -151,9 +173,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
     }
-
-
-
 
 
     override fun onDestroy() {

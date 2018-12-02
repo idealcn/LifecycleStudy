@@ -36,7 +36,7 @@ class LoginPresenter @Inject constructor() : LoginContract.Presenter<LoginView> 
         this.weakReference = WeakReference<LoginView>(view)
     }
 
-    fun detach(){
+    override fun detach(){
         weakReference.clear()
         compositeDisposable.dispose()
     }

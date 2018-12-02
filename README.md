@@ -26,6 +26,10 @@
 ```
 
 
+# dagger2
+[参考博客](https://www.jianshu.com/p/cd2c1c9f68d4)
+
+
 # Room数据库
 添加依赖
 ```
@@ -78,10 +82,11 @@ https://github.com/woxingxiao/GracefulMovies
 [EasyReader](https://github.com/laotan7237/EasyReader)
 [虎扑体育](https://github.com/gzsll/TLint)
 https://github.com/liuyanggithub/SuperMvp
+//以这个为参考
+[wanandroid](https://github.com/songmao123/WanAndroid)
 
 
-
-
+[googlesamples-sunflower](https://github.com/googlesamples/android-sunflower)
 
 
 

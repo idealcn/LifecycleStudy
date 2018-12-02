@@ -87,12 +87,12 @@
                        app:layout_constraintRight_toLeftOf="@+id/collect"
                        android:scaleType="centerCrop"
                        android:id="@+id/share"
-                       android:src="@drawable/ic_action_share"
-                       android:layout_marginRight="@dimen/dp_8"
+                       android:src="@drawable/icon_share"
+                       android:layout_marginRight="24dp"
             />
 
             <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                       android:src="@drawable/ic_like"
+                       android:src="@drawable/icon_collect"
                        app:layout_constraintTop_toBottomOf="@+id/chapterTitle"
                        app:layout_constraintRight_toRightOf="parent"
                        android:layout_marginRight="@dimen/dp_16"
