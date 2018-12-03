@@ -29,7 +29,7 @@ data class Article(var apkLink:String,
                    var zan : Int,
                    var title:String) : Serializable{
 
-    data class Tag(var name:String,var url : String)
+    data class Tag(var name:String,var url : String) :Serializable
 }
     /*
     "apkLink": "",

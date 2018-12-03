@@ -12,13 +12,13 @@ class AppApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-       instance =  applicationContext
+       instance =  this
     }
 
    companion object {
-       lateinit  var instance : Context
+       lateinit  var instance : AppApplication
        fun getAppContext() : Context {
-           return  instance
+           return  instance.applicationContext
        }
 
 

@@ -7,6 +7,12 @@
      //在同一个Fragment或者Activity中,多次获取的ViewModel都是同一个对象
      val viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 ```
+```kotlin
+    //Subclasses must have a constructor which accepts {@link Application} as the only parameter.
+    class SubAndroidViewModel constructor(application : Application) : AndroidViewModel(application) {
+        //只能使用Application对象作为唯一的参数,Application的子类都不行
+    }
+```
 
 
 # git

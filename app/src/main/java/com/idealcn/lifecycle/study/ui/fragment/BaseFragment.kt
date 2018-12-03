@@ -1,12 +1,15 @@
 package com.idealcn.lifecycle.study.ui.fragment
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.ui.mvp.contract.BaseContract
 import io.reactivex.disposables.CompositeDisposable
 import java.util.logging.Logger
@@ -117,4 +120,9 @@ abstract  class BaseFragment<V : BaseContract.BaseView> : Fragment() {
 
     fun toast(msg : String) = Toast.makeText(_context,msg,Toast.LENGTH_SHORT).show()
 
+
+    fun showRequestDialog() = AlertDialog.Builder(_context)
+        .setView(R.layout.dialog_request)
+//        .setNegativeButton("取消") { dialog, which -> dialog?.dismiss() }
+        .show()
 }

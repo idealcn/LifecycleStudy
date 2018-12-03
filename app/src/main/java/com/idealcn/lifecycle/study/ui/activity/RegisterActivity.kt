@@ -7,7 +7,6 @@ import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.dagger.component.DaggerRegisterComponent
 import com.idealcn.lifecycle.study.ext.gotoAndFinishActivity
 import com.idealcn.lifecycle.study.transformer.RxDialog
-import com.idealcn.lifecycle.study.ui.MainActivity
 import com.idealcn.lifecycle.study.ui.mvp.presenter.RegisterPresenter
 import com.idealcn.lifecycle.study.ui.mvp.view.RegisterView
 import com.jakewharton.rxbinding2.view.RxView

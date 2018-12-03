@@ -1,7 +1,7 @@
 package com.idealcn.lifecycle.study.dagger.component
 
 import com.idealcn.lifecycle.study.dagger.module.MainModule
-import com.idealcn.lifecycle.study.ui.MainActivity
+import com.idealcn.lifecycle.study.ui.activity.MainActivity
 import dagger.Component
 
 /**

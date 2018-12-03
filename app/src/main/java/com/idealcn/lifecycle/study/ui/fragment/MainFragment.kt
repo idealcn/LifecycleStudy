@@ -8,7 +8,7 @@ import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.dagger.component.DaggerHomeComponent
 import com.idealcn.lifecycle.study.decoration.CollectDecoration
-import com.idealcn.lifecycle.study.ui.ArticleDetailActivity
+import com.idealcn.lifecycle.study.ui.activity.ArticleDetailActivity
 import com.idealcn.lifecycle.study.ui.adapter.HomeArticleAdapter
 import com.idealcn.lifecycle.study.ui.mvp.presenter.HomePresenter
 import com.idealcn.lifecycle.study.ui.mvp.view.HomeView
@@ -54,6 +54,23 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
 
 
     private fun refreshData() {
+//        ViewModelProvider.AndroidViewModelFactory.getInstance(AppApplication.instance)
+//            .create(HomeModel::class.java)
+//        val liveData = ViewModelProviders.of(this)
+//            .get(HomeModel::class.java)
+//            .getArticleList(page)
+//        Transformations.switchMap(liveData) { input ->
+//            val mutableLiveData = MutableLiveData<HomeArticleBean>()
+//            mutableLiveData.postValue(input)
+//            mutableLiveData
+//        }
+//            .observe(this, Observer<HomeArticleBean> { bean ->
+//                bean?.let {
+//                    val list = it.datas
+//                    decoration.setData(decoration.getData().size,list)
+//                    articleAdapter.setData(articleAdapter.getData().size,list)
+//                }
+//            })
         presenter.loadArticleList(page)
     }
 
@@ -74,6 +91,7 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
 
     override fun showRequestProgress() {
         toast("请求中")
+//        showRequestDialog()
     }
 
     override fun hideRequestProgress() {

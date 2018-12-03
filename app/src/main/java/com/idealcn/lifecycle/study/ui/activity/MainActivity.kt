@@ -1,4 +1,4 @@
-package com.idealcn.lifecycle.study.ui
+package com.idealcn.lifecycle.study.ui.activity
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -104,37 +104,32 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(object :
-            BottomNavigationView.OnNavigationItemSelectedListener {
-            override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
-                when (item.itemId) {
-                    R.id.action_home -> {
-                        homePager.setCurrentItem(0, true)
-                    }
-
-                    R.id.action_knowledge_system -> {
-                        homePager.setCurrentItem(1, true)
-                    }
-
-                    R.id.action_navigation -> {
-                        homePager.setCurrentItem(2, true)
-
-                    }
-
-
-                    R.id.action_project -> {
-                        homePager.setCurrentItem(3, true)
-
-                    }
-                    else -> {
-                        homePager.setCurrentItem(0, true)
-                    }
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_home -> {
+                    homePager.setCurrentItem(0, true)
                 }
-                return true
-            }
 
-        })
+                R.id.action_knowledge_system -> {
+                    homePager.setCurrentItem(1, true)
+                }
+
+                R.id.action_navigation -> {
+                    homePager.setCurrentItem(2, true)
+
+                }
+
+
+                R.id.action_project -> {
+                    homePager.setCurrentItem(3, true)
+
+                }
+                else -> {
+                    homePager.setCurrentItem(0, true)
+                }
+            }
+            true
+        }
 
 
     }

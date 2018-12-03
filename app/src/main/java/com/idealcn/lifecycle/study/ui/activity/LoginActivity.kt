@@ -1,7 +1,6 @@
 package com.idealcn.lifecycle.study.ui.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.base.BaseActivity
@@ -9,7 +8,6 @@ import com.idealcn.lifecycle.study.dagger.component.DaggerLoginComponent
 import com.idealcn.lifecycle.study.ext.goto
 import com.idealcn.lifecycle.study.ext.gotoAndFinishActivity
 import com.idealcn.lifecycle.study.ext.throttled
-import com.idealcn.lifecycle.study.ui.MainActivity
 import com.idealcn.lifecycle.study.ui.mvp.presenter.LoginPresenter
 import com.idealcn.lifecycle.study.ui.mvp.view.LoginView
 import com.jakewharton.rxbinding2.view.RxView

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import com.idealcn.lifecycle.study.AppHelper
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.ext.gotoAndFinishActivity
-import com.idealcn.lifecycle.study.ui.MainActivity
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -52,7 +51,7 @@ class SplashActivity : AppCompatActivity() {
                 }
                 .subscribe( {
                     if (it){
-                        startActivity(Intent(this@SplashActivity,MainActivity::class.java))
+                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     }else{
                         startActivity(Intent(this@SplashActivity,LoginActivity::class.java))
                     }

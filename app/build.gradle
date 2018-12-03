@@ -20,12 +20,18 @@ android {
         //room数据库导出
         javaCompileOptions {
                          annotationProcessorOptions {
-                                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                                 arguments = [
+                                         "room.schemaLocation": "$projectDir/schemas".toString()
+//                                              AROUTER_MODULE_NAME: project.getName()
+                                 ]
                              }
                      }
+
+
     }
     buildTypes {
         release {
+            buildConfigField("boolean","ENV_DEV","true")
             applicationIdSuffix ".release"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -33,7 +39,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             minifyEnabled false
-
+            buildConfigField("boolean","ENV_DEV","false")
         }
     }
     compileOptions {
@@ -68,24 +74,24 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    
     def support_version = "27.1.1"
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:recyclerview-v7:$support_version"
     implementation "com.android.support:cardview-v7:$support_version"
     implementation "com.android.support:design:$support_version"
-
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-
     implementation 'android.arch.lifecycle:extensions:1.1.1'
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
     //retrofit2.0
     def VERSION_RETROFIT = "2.4.0"
     implementation "com.squareup.retrofit2:retrofit:$VERSION_RETROFIT"
@@ -94,24 +100,29 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit-mock:$VERSION_RETROFIT"
     implementation "com.squareup.retrofit2:converter-jackson:$VERSION_RETROFIT"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$VERSION_RETROFIT"
+
     //rxjava2
     implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+
     //gson
     implementation 'com.google.code.gson:gson:2.8.5'
 
     //    def lifecycle_version = "2.0.0"
+
     //    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
     //dagger2
     def version_dagger = "2.15"
     implementation "com.google.dagger:dagger:$version_dagger"
     kapt "com.google.dagger:dagger-compiler:$version_dagger"
+
     //android-dagger
+
     //def VERSION_ANDROID_DAGGER = "2.19"
     implementation "com.google.dagger:dagger-android:$version_dagger"
     implementation "com.google.dagger:dagger-android-support:$version_dagger"
     kapt "com.google.dagger:dagger-android-processor:$version_dagger"
-
 
     //rxbinding
     def VERSION_RXBINDING = "2.1.1"
@@ -119,13 +130,28 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding-support-v4:$VERSION_RXBINDING"
     implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$VERSION_RXBINDING"
 
+    //room数据库
+    def room_version = "1.1.1"
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
 
-        //room数据库
-        def room_version = "1.1.1"
-         implementation "android.arch.persistence.room:runtime:$room_version"
-         kapt "android.arch.persistence.room:compiler:$room_version"
-         // optional - RxJava support for Room
-         implementation "android.arch.persistence.room:rxjava2:$room_version"
+    // optional - RxJava support for Room
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
 
+    //databinding
 
+    //    implementation 'com.android.databinding:adapters:3.2.1'
+
+    //    implementation 'com.android.databinding:compiler:3.1.4'
+
+    //    implementation 'com.android.databinding:baseLibrary:3.2.1'
+
+    //    implementation 'com.android.databinding:library:3.2.1'
+
+    //arouter
+//    implementation 'com.alibaba:arouter-api:1.4.0'
+//    kapt 'com.alibaba:arouter-compiler:1.2.1'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
 }

@@ -4,10 +4,9 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.OnLifecycleEvent
-import com.idealcn.lifecycle.study.ui.MainActivity
+import com.idealcn.lifecycle.study.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.main_activity.*
 import java.util.logging.Logger
-import javax.inject.Inject
 
 /**
  * @author: guoning
