@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import com.idealcn.lifecycle.study.ActivityLifecycleObserver
 import com.idealcn.lifecycle.study.R
+import com.idealcn.lifecycle.study.base.BaseActivity
 import com.idealcn.lifecycle.study.bean.Chapter
 import com.idealcn.lifecycle.study.ui.fragment.*
 import com.idealcn.lifecycle.study.ui.mvp.contract.BaseContract
@@ -23,7 +24,10 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.main_activity.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+    override fun getLayout(): Int {
+        return R.layout.main_activity
+    }
 
 
 //    private lateinit var      disposable: Disposable
@@ -45,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+//        setContentView(R.layout.main_activity)
         lifecycle.addObserver(activityLifecycleObserver)
 //        if (savedInstanceState == null) {
 //            supportFragmentManager.beginTransaction()

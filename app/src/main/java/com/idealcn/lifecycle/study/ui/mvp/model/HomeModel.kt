@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import com.idealcn.lifecycle.study.AppApplication
 import com.idealcn.lifecycle.study.bean.BaseResponseBean
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
@@ -21,7 +22,7 @@ import org.xml.sax.ErrorHandler
  * date: 2018/12/2 11:56
  * 描述:
  */
-open class HomeModel{ //public constructor( application: Application) : AndroidViewModel(application) {
+open class HomeModel : ViewModel(){ //public constructor( application: Application) : AndroidViewModel(application) {
 
 //    init {
 //        application = AppApplication.instance
@@ -31,7 +32,8 @@ open class HomeModel{ //public constructor( application: Application) : AndroidV
         return RetrofitClient.newInstance().api.articleList(page)
     }
 
-//    private val liveData : MutableLiveData<HomeArticleBean> = MutableLiveData<HomeArticleBean>()
+    //如果对应页面有多种类型数据,这里就可以定义多个不同泛型类型的LiveData
+     val liveData : MutableLiveData<HomeArticleBean> = MutableLiveData<HomeArticleBean>()
 
 //    fun  getArticleList(page: Int) : LiveData<HomeArticleBean> {
 //        val observable = loadArticleList(page).ext().compose(RxErrorHandler.handlerError((getApplication() as AppApplication).applicationContext))

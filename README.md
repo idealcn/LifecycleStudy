@@ -13,6 +13,7 @@
         //只能使用Application对象作为唯一的参数,Application的子类都不行
     }
 ```
+从数据源中(本地或者网络)获取到数据反馈给ui层,
 
 
 # git
@@ -54,6 +55,21 @@ def room_version = "2.1.0-alpha02"
  参考官方文档:https://developer.android.google.cn/training/implementing-navigation/nav-drawer
  
  
+# Fragment
+屏幕旋转时,Activity/Fragment生命周期怎么变化?
+    经历了完整的生命周期变化,通过onSaveInstanceState保存的数据可以在onRestoreInstanceState中取出
+对于Activity:
+    -------onCreate
+    -------onStart
+    -------onResume
+    -------onPause
+    -------onSaveInstanceState
+    -------onStop
+    -------onDestroy
+    -------onCreate
+    -------onStart
+    -------onRestoreInstanceState,我是保存的状态
+    -------onResume
  
 # 参考项目
 https://github.com/git-xuhao/KotlinMvp

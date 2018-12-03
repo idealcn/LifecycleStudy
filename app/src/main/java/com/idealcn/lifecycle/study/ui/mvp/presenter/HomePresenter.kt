@@ -1,9 +1,11 @@
 package com.idealcn.lifecycle.study.ui.mvp.presenter
 
+import android.arch.lifecycle.ViewModelProviders
 import com.idealcn.lifecycle.study.AppApplication
 import com.idealcn.lifecycle.study.ext.ext
 import com.idealcn.lifecycle.study.http.Api
 import com.idealcn.lifecycle.study.transformer.RxErrorHandler
+import com.idealcn.lifecycle.study.ui.fragment.MainFragment
 import com.idealcn.lifecycle.study.ui.mvp.contract.HomeContract
 import com.idealcn.lifecycle.study.ui.mvp.model.HomeModel
 import com.idealcn.lifecycle.study.ui.mvp.view.HomeView
@@ -20,12 +22,11 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
 
     lateinit var weakReference: WeakReference<HomeView>
 
-    private  val homeModel : HomeModel
+    private  lateinit var homeModel : HomeModel
 
     private val compositeDisposable : CompositeDisposable
 
     init {
-        homeModel = HomeModel()
         compositeDisposable = CompositeDisposable()
     }
 
@@ -35,6 +36,7 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
     }
     override fun attach(view: HomeView) {
         this.weakReference = WeakReference<HomeView>(view)
+        homeModel = ViewModelProviders.of(view as MainFragment) .get(HomeModel::class.java)
     }
 
 
@@ -52,7 +54,8 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
                     val errorCode = it.errorCode
                    when (errorCode){
                        Api.ErrorCode.CODE_0 -> {
-                           weakReference.get()?.showRequestResult(it.data)
+                           homeModel.liveData.postValue(it.data)
+//                           weakReference.get()?.showRequestResult(it.data)
                        }
                    }
                },{
