@@ -53,15 +53,15 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
         }
 
 
-        ViewModelProviders.of(this).get(HomeModel::class.java)
-            .liveData.observe(this,
-            Observer<HomeArticleBean> { data ->
-                data?.let {
-                    val list = it.datas
-                    decoration.setData(decoration.getData().size,list)
-                    articleAdapter.setData(articleAdapter.getData().size,list)
-                }
-            })
+//        ViewModelProviders.of(this).get(HomeModel::class.java)
+//            .liveData.observe(this,
+//            Observer<HomeArticleBean> { data ->
+//                data?.let {
+//                    val list = it.datas
+//                    decoration.setData(decoration.getData().size,list)
+//                    articleAdapter.setData(articleAdapter.getData().size,list)
+//                }
+//            })
 
 
 

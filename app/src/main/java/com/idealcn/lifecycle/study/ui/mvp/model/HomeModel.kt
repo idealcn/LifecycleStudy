@@ -22,7 +22,7 @@ import org.xml.sax.ErrorHandler
  * date: 2018/12/2 11:56
  * 描述:
  */
-open class HomeModel : ViewModel(){ //public constructor( application: Application) : AndroidViewModel(application) {
+open class HomeModel { //public constructor( application: Application) : AndroidViewModel(application) {
 
 //    init {
 //        application = AppApplication.instance
@@ -33,7 +33,7 @@ open class HomeModel : ViewModel(){ //public constructor( application: Applicati
     }
 
     //如果对应页面有多种类型数据,这里就可以定义多个不同泛型类型的LiveData
-     val liveData : MutableLiveData<HomeArticleBean> = MutableLiveData<HomeArticleBean>()
+//     val liveData : MutableLiveData<HomeArticleBean> = MutableLiveData<HomeArticleBean>()
 
 //    fun  getArticleList(page: Int) : LiveData<HomeArticleBean> {
 //        val observable = loadArticleList(page).ext().compose(RxErrorHandler.handlerError((getApplication() as AppApplication).applicationContext))

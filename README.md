@@ -58,6 +58,7 @@ def room_version = "2.1.0-alpha02"
 # Fragment
 屏幕旋转时,Activity/Fragment生命周期怎么变化?
     经历了完整的生命周期变化,通过onSaveInstanceState保存的数据可以在onRestoreInstanceState中取出
+    数据加载的操作还会再走一次,ViewModel恢复数据似乎并没啥用
 对于Activity:
     -------onCreate
     -------onStart

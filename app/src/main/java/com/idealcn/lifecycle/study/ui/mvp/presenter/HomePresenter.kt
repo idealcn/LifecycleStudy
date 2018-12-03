@@ -27,6 +27,7 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
     private val compositeDisposable : CompositeDisposable
 
     init {
+        homeModel = HomeModel()
         compositeDisposable = CompositeDisposable()
     }
 
@@ -36,7 +37,7 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
     }
     override fun attach(view: HomeView) {
         this.weakReference = WeakReference<HomeView>(view)
-        homeModel = ViewModelProviders.of(view as MainFragment) .get(HomeModel::class.java)
+//        homeModel = ViewModelProviders.of(view as MainFragment) .get(HomeModel::class.java)
     }
 
 
@@ -54,8 +55,7 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
                     val errorCode = it.errorCode
                    when (errorCode){
                        Api.ErrorCode.CODE_0 -> {
-                           homeModel.liveData.postValue(it.data)
-//                           weakReference.get()?.showRequestResult(it.data)
+                           weakReference.get()?.showRequestResult(it.data)
                        }
                    }
                },{
