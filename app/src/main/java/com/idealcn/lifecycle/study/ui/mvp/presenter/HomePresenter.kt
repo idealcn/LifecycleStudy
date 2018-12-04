@@ -22,12 +22,11 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
 
     lateinit var weakReference: WeakReference<HomeView>
 
-    private  lateinit var homeModel : HomeModel
+    private var homeModel : HomeModel = HomeModel()
 
     private val compositeDisposable : CompositeDisposable
 
     init {
-        homeModel = HomeModel()
         compositeDisposable = CompositeDisposable()
     }
 
@@ -44,7 +43,8 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
     override fun loadArticleList(page: Int) {
        compositeDisposable.add(
            homeModel.loadArticleList(page)
-               .ext().compose(RxErrorHandler.handlerError(AppApplication.getAppContext()))
+               .ext()
+//               .compose(RxErrorHandler.handlerError(AppApplication.getAppContext()))
                .doOnSubscribe {
                    weakReference.get()?.showRequestProgress()
                }
@@ -57,9 +57,15 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
                        Api.ErrorCode.CODE_0 -> {
                            weakReference.get()?.showRequestResult(it.data)
                        }
+                       Api.ErrorCode.CODE_1 -> {
+                           weakReference.get()?.showRequestError(errorCode,it.errorMsg)
+                       }
+                       else -> {
+
+                       }
                    }
                },{
-
+                   weakReference.get()?.showRequestError(100,it.message!!)
                },{
 
                })

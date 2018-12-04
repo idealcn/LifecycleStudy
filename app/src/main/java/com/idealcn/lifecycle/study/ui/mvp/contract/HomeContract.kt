@@ -17,5 +17,6 @@ interface HomeContract {
         fun showRequestProgress()
         fun hideRequestProgress()
         fun showRequestResult(data: HomeArticleBean)
+        fun showRequestError(errorCode: Int, errorMsg: String)
     }
 }

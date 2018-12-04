@@ -36,6 +36,9 @@
 # dagger2
 [参考博客](https://www.jianshu.com/p/cd2c1c9f68d4)
 
+# RxJava2
+一切数据都是流,just,error,empty等创建型操作符都是为了向下继续发送数据流,确保下游观测者可以接收到信息(包含异常信息)
+ObserVableTransformer处理的全局异常信息,依旧需要在Observer中做接收
 
 # Room数据库
 添加依赖

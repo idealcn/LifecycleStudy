@@ -21,6 +21,7 @@ import javax.inject.Inject
 class MainFragment : BaseFragment<HomeView>(),HomeView {
 
 
+
     private lateinit var articleAdapter  : HomeArticleAdapter
 
     private var page = 0
@@ -28,6 +29,7 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
 
     private lateinit var decoration : CollectDecoration
 
+    private var isRefreshing = true
 
     @Inject
     lateinit var presenter :HomePresenter
@@ -47,8 +49,21 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
             }
 
         })
-        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(_context,R.color.colorPrimary))
-        swipeRefreshLayout.setOnRefreshListener {
+//        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(_context,R.color.colorPrimary))
+//        swipeRefreshLayout.setOnRefreshListener {
+//            refreshData()
+//        }
+
+        smartRefreshLayout.setOnRefreshListener {
+            if (page>0)return@setOnRefreshListener
+            page = 0
+            isRefreshing = true
+            refreshData()
+        }
+
+        smartRefreshLayout.setOnLoadMoreListener {
+            page++
+            isRefreshing = false
             refreshData()
         }
 
@@ -87,14 +102,28 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
     }
 
 
+    override fun showRequestError(errorCode: Int, errorMsg: String) {
+        toast(errorMsg)
+        finishLoadData()
+    }
+
+
     override fun showRequestProgress() {
-        toast("请求中")
+//        toast("请求中")
 //        showRequestDialog()
     }
 
     override fun hideRequestProgress() {
-        toast("请求完毕")
-        swipeRefreshLayout.isRefreshing = false
+//        toast("请求完毕")
+        finishLoadData()
+//        swipeRefreshLayout.isRefreshing = false
+    }
+
+    /**
+     * 停止加载或者刷新数据
+     */
+    private fun finishLoadData() {
+        if (isRefreshing) smartRefreshLayout.finishRefresh() else smartRefreshLayout.finishLoadMore()
     }
 
     override fun showRequestResult(data: HomeArticleBean) {
