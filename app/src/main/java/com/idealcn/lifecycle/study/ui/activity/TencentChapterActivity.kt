@@ -38,7 +38,12 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
 
          val arrayList : ArrayList<ChapterHistory.ChapterHistoryChild> = history.datas
                         map.put(tabList[lastSelectTabIndex],arrayList)
+
+                        //在切换tab的时候才去清除数据
+                    if (switchTab) {
                         adapter.clearData()
+                        switchTab = false
+                    }
                         adapter.addData(arrayList)
     }
 
@@ -64,6 +69,8 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
     var lastSelectTabIndex = 0
 
     private var isRefreshing = false
+
+    private var switchTab = false
 
     @Inject
     lateinit var presenter : ChapterPresenter
@@ -152,6 +159,7 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
 
                 lastSelectTabIndex = position
 
+                switchTab = true
 
                 val arrayList = map[tabList[position]]
                 arrayList?.run {
