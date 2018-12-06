@@ -52,6 +52,10 @@ def room_version = "2.1.0-alpha02"
 参考博客: https://www.cnblogs.com/littlepanpc/p/9269549.html
 
 
+# databinding
+ 1. 绑定adapter
+ 2. 
+
 # material design
 
 ## DrawerLayout

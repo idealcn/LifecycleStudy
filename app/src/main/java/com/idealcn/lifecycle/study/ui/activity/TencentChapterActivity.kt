@@ -10,6 +10,7 @@ import com.idealcn.lifecycle.study.base.BaseActivity
 import com.idealcn.lifecycle.study.bean.Chapter
 import com.idealcn.lifecycle.study.bean.ChapterHistory
 import com.idealcn.lifecycle.study.dagger.component.DaggerChapterComponent
+import com.idealcn.lifecycle.study.databinding.AdapterChapterBinding
 import com.idealcn.lifecycle.study.exception.BaseThrowable
 import com.idealcn.lifecycle.study.ext.ext
 import com.idealcn.lifecycle.study.http.Api
@@ -20,6 +21,7 @@ import com.idealcn.lifecycle.study.ui.adapter.AbstractBaseHolder
 import com.idealcn.lifecycle.study.ui.mvp.presenter.ChapterPresenter
 import com.idealcn.lifecycle.study.ui.mvp.view.ChapterView
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_tencent_chapter.*
 import kotlinx.android.synthetic.main.adapter_chapter.view.*
 import javax.inject.Inject
@@ -29,22 +31,22 @@ import javax.inject.Inject
  * @date: 2018/12/6 13:28
  * @description: 公众号页面
  */
-class TencentChapterActivity : BaseActivity() ,ChapterView{
+class TencentChapterActivity : BaseActivity(), ChapterView {
     override fun showRequestResult(history: ChapterHistory) {
 
         if (isRefreshing) chapterRefreshLayout.finishRefresh() else chapterRefreshLayout.finishLoadMore()
 
         pageMap[tabList[lastSelectTabIndex]] = getPageIndexOfTab(lastSelectTabIndex)
 
-         val arrayList : ArrayList<ChapterHistory.ChapterHistoryChild> = history.datas
-                        map.put(tabList[lastSelectTabIndex],arrayList)
+        val arrayList: ArrayList<ChapterHistory.ChapterHistoryChild> = history.datas
+        map[tabList[lastSelectTabIndex]] = arrayList
 
-                        //在切换tab的时候才去清除数据
-                    if (switchTab) {
-                        adapter.clearData()
-                        switchTab = false
-                    }
-                        adapter.addData(arrayList)
+        //在切换tab的时候才去清除数据
+        if (switchTab) {
+            adapter.clearData()
+            switchTab = false
+        }
+        adapter.addData(arrayList)
     }
 
     override fun showRequestProgress(msg: String) {
@@ -58,13 +60,13 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
     /**
      * 缓存当前页面和前后两个页面的数据
      */
-    val map : HashMap<String,ArrayList<ChapterHistory.ChapterHistoryChild>> = hashMapOf()
+    val map: HashMap<String, ArrayList<ChapterHistory.ChapterHistoryChild>> = hashMapOf()
 
-    val tabMap : HashMap<String, Chapter> = hashMapOf()
+    val tabMap: HashMap<String, Chapter> = hashMapOf()
 
-    val tabList : ArrayList<String> = arrayListOf()
+    val tabList: ArrayList<String> = arrayListOf()
 
-    val pageMap : HashMap<String,Int> = hashMapOf()
+    val pageMap: HashMap<String, Int> = hashMapOf()
 
     var lastSelectTabIndex = 0
 
@@ -72,22 +74,22 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
 
     private var switchTab = false
 
-    @Inject
-    lateinit var presenter : ChapterPresenter
+    private val compositeDisposable :CompositeDisposable = CompositeDisposable()
 
-    private val  adapter = object : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild>(){
+    @Inject
+    lateinit var presenter: ChapterPresenter
+
+    private val adapter = object : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild, AdapterChapterBinding>() {
         override fun getLayout(): Int {
             return R.layout.adapter_chapter
         }
 
         override fun onBindNormalHolder(
-            holder: AbstractBaseHolder,
+            holder: AbstractBaseHolder<AdapterChapterBinding>,
             position: Int,
             child: ChapterHistory.ChapterHistoryChild
         ) {
-            holder.itemView.title.text = child.chapterName
-            holder.itemView.author.text = child.author
-
+            holder.dataBinding.child = child
         }
 
     }
@@ -104,40 +106,42 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
 
         chapterHistoryList.adapter = adapter
         chapterHistoryList.layoutManager = LinearLayoutManager(this)
-        chapterHistoryList.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
+        chapterHistoryList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        RetrofitClient.newInstance().api.chapterList().ext()
-            .doOnSubscribe {
+        compositeDisposable.add(
+            RetrofitClient.newInstance().api.chapterList().ext()
+                .doOnSubscribe {
 
-            }.compose(RxErrorHandler.handlerError(this))
-            .flatMap { t ->
-                val errorCode = t.errorCode
-                when (errorCode){
-                    Api.ErrorCode.CODE_0 -> {
-                        Observable.just(t.data)
-                    }
-                    else -> {
-                        Observable.error(BaseThrowable(t.errorMsg,errorCode))
+                }.compose(RxErrorHandler.handlerError(this))
+                .flatMap { t ->
+                    val errorCode = t.errorCode
+                    when (errorCode) {
+                        Api.ErrorCode.CODE_0 -> {
+                            Observable.just(t.data)
+
+                        }
+                        else -> {
+                            Observable.error(BaseThrowable(t.errorMsg, errorCode))
+                        }
                     }
                 }
-            }
-            .flatMap { list ->
-                list.forEach { chapter ->
-                    tabList.add(chapter.id.toString())
-                    tabMap.put(chapter.id.toString(),chapter)
-                    tabLayout.addTab( tabLayout.newTab().setText(chapter.name))
+                .flatMap { list ->
+                    list.forEach { chapter ->
+                        tabList.add(chapter.id.toString())
+                        tabMap.put(chapter.id.toString(), chapter)
+                        tabLayout.addTab(tabLayout.newTab().setText(chapter.name))
+                    }
+                    Observable.just(true)
                 }
-                Observable.just(true)
-//                RetrofitClient.newInstance().api.chapterHistoryList(list[0].id,0).ext()
-//                    .compose(RxErrorHandler.handlerError(this@TencentChapterActivity))
-            }
-            .subscribe({
-                chapterRefreshLayout.autoRefresh(1)
-            },{
-                toast(it.message!!)
-            },{
+                .subscribe({
+                    chapterRefreshLayout.autoRefresh(1)
+                }, {
 
-            })
+                    it.message?.let { it1 -> toast(it1) }
+                }, {
+
+                })
+        )
 
 
 
@@ -155,7 +159,7 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
 
                 val position = tab!!.position
 
-                if (lastSelectTabIndex == position)return
+                if (lastSelectTabIndex == position) return
 
                 lastSelectTabIndex = position
 
@@ -167,10 +171,6 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
                     adapter.addData(this)
                     return
                 }
-
-                val page = getPageIndexOfTab(position)
-
-//                presenter.loadChapterList(tabMap[tabList[position]]!!.id,page)
                 chapterRefreshLayout.autoRefresh()
             }
         })
@@ -180,25 +180,28 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
         chapterRefreshLayout.setOnRefreshListener {
             isRefreshing = true
             pageMap[tabList[lastSelectTabIndex]] = 0
-            presenter.loadChapterList(tabMap[tabList[lastSelectTabIndex]]!!.id,0)
+            presenter.loadChapterList(tabMap[tabList[lastSelectTabIndex]]!!.id, 0)
         }
 
         chapterRefreshLayout.setOnLoadMoreListener {
             isRefreshing = false
             val page = getPageIndexOfTab(lastSelectTabIndex)
-            presenter.loadChapterList(tabMap[tabList[lastSelectTabIndex]]!!.id,page)
+            presenter.loadChapterList(tabMap[tabList[lastSelectTabIndex]]!!.id, page)
         }
 
 
         setSupportActionBar(toolBar)
-
+//        TODO("研究一下toolbar的用法")
         toolBar.title = "公众号"
         toolBar.setTitleTextColor(Color.parseColor("#ffffff"))
 
     }
 
-    private fun getPageIndexOfTab(position: Int): Int {
-        var page = pageMap[tabList[position]]
+    /**
+     * 获取当前选项卡的加载页数
+     */
+    private fun getPageIndexOfTab(tabIndex: Int): Int {
+        var page = pageMap[tabList[tabIndex]]
         page = page?.plus(1) ?: 0
         return page
     }

@@ -1,13 +1,13 @@
 package com.idealcn.lifecycle.study.ui.adapter
 
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-abstract class AbstractBaseAdapter<T> : RecyclerView.Adapter<AbstractBaseHolder> {
-
-
+abstract class AbstractBaseAdapter<T,D :ViewDataBinding> : RecyclerView.Adapter<AbstractBaseHolder<D>> {
 
 
     companion object {
@@ -29,7 +29,7 @@ abstract class AbstractBaseAdapter<T> : RecyclerView.Adapter<AbstractBaseHolder>
         dataList = list
     }
 
-    override fun onBindViewHolder(holder: AbstractBaseHolder, position: Int) {
+    override fun onBindViewHolder(holder: AbstractBaseHolder<D>, position: Int) {
         val type = getItemViewType(position)
         when(type){
             TYPE_HEADER -> {
@@ -50,15 +50,16 @@ abstract class AbstractBaseAdapter<T> : RecyclerView.Adapter<AbstractBaseHolder>
     }
 
     abstract fun onBindNormalHolder(
-        holder: AbstractBaseHolder,
+        holder: AbstractBaseHolder<D>,
         position: Int,
         t: T
     )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractBaseHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractBaseHolder<D> {
         val context = parent.context
-        val holder :AbstractBaseHolder
-         holder = AbstractBaseHolder(LayoutInflater.from(context).inflate(getLayout(),parent,false))
+        val dataBinding :D = DataBindingUtil.inflate(LayoutInflater.from(context),getLayout(),parent,false)
+        val holder :AbstractBaseHolder<D>
+         holder = AbstractBaseHolder<D>(dataBinding)
         return holder
     }
 
@@ -74,11 +75,6 @@ abstract class AbstractBaseAdapter<T> : RecyclerView.Adapter<AbstractBaseHolder>
         if (getFooterView()!=null && position == itemCount-1)return TYPE_FOOTER
         return TYPE_NORMAL
     }
-
-
-
-
-
 
 
     abstract fun getLayout() : Int

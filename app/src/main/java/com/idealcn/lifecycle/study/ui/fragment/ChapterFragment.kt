@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Chapter
 import com.idealcn.lifecycle.study.bean.ChapterHistory
+import com.idealcn.lifecycle.study.databinding.AdapterChapterBinding
 import com.idealcn.lifecycle.study.ui.adapter.AbstractBaseAdapter
 import com.idealcn.lifecycle.study.ui.adapter.AbstractBaseHolder
 import io.reactivex.Observer
@@ -34,9 +35,9 @@ class ChapterFragment : Fragment() {
     private lateinit var   observer: Observer<ArrayList<ChapterHistory.ChapterHistoryChild>>
 
 
-    private val adapter : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild> = object : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild>(dataList){
+    private val adapter : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild, AdapterChapterBinding> = object : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild,AdapterChapterBinding>(dataList){
         override fun onBindNormalHolder(
-            holder: AbstractBaseHolder,
+            holder: AbstractBaseHolder<AdapterChapterBinding>,
             position: Int,
             t: ChapterHistory.ChapterHistoryChild
         ) {
