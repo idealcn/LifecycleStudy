@@ -55,6 +55,13 @@ def room_version = "2.1.0-alpha02"
 # databinding
  1. 绑定adapter
  2. 
+ 
+# RecyclerView
+    1. 优化
+    2. 瀑布流
+    
+# 多状态布局
+    
 
 # material design
 
