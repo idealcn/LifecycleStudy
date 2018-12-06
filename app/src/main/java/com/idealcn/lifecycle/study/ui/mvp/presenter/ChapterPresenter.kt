@@ -44,9 +44,6 @@ class ChapterPresenter @Inject constructor() : ChapterContract.Presenter<Chapter
                     Api.ErrorCode.CODE_0 -> {
                         val data = it.data
                         chapterView.get()?.showRequestResult(data)
-//                                chapterHistoryList.adapter = adapter
-//                                chapterHistoryList.addItemDecoration(DividerItemDecoration(this@TencentChapterActivity,DividerItemDecoration.VERTICAL))
-//                                chapterHistoryList.layoutManager = LinearLayoutManager(this@TencentChapterActivity)
                     }
                     else -> {
 

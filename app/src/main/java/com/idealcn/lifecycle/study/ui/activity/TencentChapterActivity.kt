@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.TabHost
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.base.BaseActivity
 import com.idealcn.lifecycle.study.bean.Chapter
@@ -31,11 +30,13 @@ import javax.inject.Inject
  */
 class TencentChapterActivity : BaseActivity() ,ChapterView{
     override fun showRequestResult(history: ChapterHistory) {
+
+        pageMap[tabList[lastSelectTabIndex]] = getPageIndexOfTab(lastSelectTabIndex)
+
          val arrayList : ArrayList<ChapterHistory.ChapterHistoryChild> = history.datas
-                        map.put(tabList[lastSelectPosition],arrayList)
+                        map.put(tabList[lastSelectTabIndex],arrayList)
                         adapter.clearData()
                         adapter.addData(arrayList)
-                        //
     }
 
     override fun showRequestProgress(msg: String) {
@@ -55,7 +56,9 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
 
     val tabList : ArrayList<String> = arrayListOf()
 
-    var lastSelectPosition = 0
+    val pageMap : HashMap<String,Int> = hashMapOf()
+
+    var lastSelectTabIndex = 0
 
     @Inject
     lateinit var presenter : ChapterPresenter
@@ -118,7 +121,7 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
                         val data = it.data
                         val arrayList : ArrayList<ChapterHistory.ChapterHistoryChild> = data.datas
                         adapter.addData(arrayList)
-                        map.put(tabList[lastSelectPosition],arrayList)
+                        map.put(tabList[lastSelectTabIndex],arrayList)
                         chapterHistoryList.adapter = adapter
                         chapterHistoryList.addItemDecoration(DividerItemDecoration(this@TencentChapterActivity,DividerItemDecoration.VERTICAL))
                         chapterHistoryList.layoutManager = LinearLayoutManager(this@TencentChapterActivity)
@@ -150,9 +153,9 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
 
                 val position = tab!!.position
 
-                if (lastSelectPosition == position)return
+                if (lastSelectTabIndex == position)return
 
-                lastSelectPosition = position
+                lastSelectTabIndex = position
 
 
                 val arrayList = map[tabList[position]]
@@ -162,9 +165,32 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
                     return
                 }
 
-                presenter.loadChapterList(tabMap[tabList[position]]!!.id,0)
+                val page = getPageIndexOfTab(position)
+
+
+                presenter.loadChapterList(tabMap[tabList[position]]!!.id,page)
             }
         })
+
+
+//        chapterRefreshLayout.autoRefresh()
+        chapterRefreshLayout.setOnRefreshListener {
+            pageMap[tabList[lastSelectTabIndex]] = 0
+            presenter.loadChapterList(tabMap[tabList[lastSelectTabIndex]]!!.id,0)
+        }
+
+        chapterRefreshLayout.setOnLoadMoreListener {
+            val page = getPageIndexOfTab(lastSelectTabIndex)
+            presenter.loadChapterList(tabMap[tabList[lastSelectTabIndex]]!!.id,page)
+        }
+
+
+    }
+
+    private fun getPageIndexOfTab(position: Int): Int {
+        var page = pageMap[tabList[position]]
+        page = page?.plus(1) ?: 0
+        return page
     }
 
 
