@@ -1,5 +1,6 @@
 package com.idealcn.lifecycle.study.ui.activity
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.DividerItemDecoration
@@ -31,6 +32,8 @@ import javax.inject.Inject
 class TencentChapterActivity : BaseActivity() ,ChapterView{
     override fun showRequestResult(history: ChapterHistory) {
 
+        if (isRefreshing) chapterRefreshLayout.finishRefresh() else chapterRefreshLayout.finishLoadMore()
+
         pageMap[tabList[lastSelectTabIndex]] = getPageIndexOfTab(lastSelectTabIndex)
 
          val arrayList : ArrayList<ChapterHistory.ChapterHistoryChild> = history.datas
@@ -59,6 +62,8 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
     val pageMap : HashMap<String,Int> = hashMapOf()
 
     var lastSelectTabIndex = 0
+
+    private var isRefreshing = false
 
     @Inject
     lateinit var presenter : ChapterPresenter
@@ -90,6 +95,10 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
         DaggerChapterComponent.builder().build().inject(this)
         presenter.attach(this)
 
+        chapterHistoryList.adapter = adapter
+        chapterHistoryList.layoutManager = LinearLayoutManager(this)
+        chapterHistoryList.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
+
         RetrofitClient.newInstance().api.chapterList().ext()
             .doOnSubscribe {
 
@@ -111,26 +120,12 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
                     tabMap.put(chapter.id.toString(),chapter)
                     tabLayout.addTab( tabLayout.newTab().setText(chapter.name))
                 }
-                RetrofitClient.newInstance().api.chapterHistoryList(list[0].id,0).ext()
-                    .compose(RxErrorHandler.handlerError(this@TencentChapterActivity))
+                Observable.just(true)
+//                RetrofitClient.newInstance().api.chapterHistoryList(list[0].id,0).ext()
+//                    .compose(RxErrorHandler.handlerError(this@TencentChapterActivity))
             }
             .subscribe({
-               val errorCode = it.errorCode
-                when (errorCode) {
-                    Api.ErrorCode.CODE_0 -> {
-                        val data = it.data
-                        val arrayList : ArrayList<ChapterHistory.ChapterHistoryChild> = data.datas
-                        adapter.addData(arrayList)
-                        map.put(tabList[lastSelectTabIndex],arrayList)
-                        chapterHistoryList.adapter = adapter
-                        chapterHistoryList.addItemDecoration(DividerItemDecoration(this@TencentChapterActivity,DividerItemDecoration.VERTICAL))
-                        chapterHistoryList.layoutManager = LinearLayoutManager(this@TencentChapterActivity)
-                    }
-                    else -> {
-
-                    }
-                }
-
+                chapterRefreshLayout.autoRefresh(1)
             },{
                 toast(it.message!!)
             },{
@@ -167,23 +162,30 @@ class TencentChapterActivity : BaseActivity() ,ChapterView{
 
                 val page = getPageIndexOfTab(position)
 
-
-                presenter.loadChapterList(tabMap[tabList[position]]!!.id,page)
+//                presenter.loadChapterList(tabMap[tabList[position]]!!.id,page)
+                chapterRefreshLayout.autoRefresh()
             }
         })
 
 
 //        chapterRefreshLayout.autoRefresh()
         chapterRefreshLayout.setOnRefreshListener {
+            isRefreshing = true
             pageMap[tabList[lastSelectTabIndex]] = 0
             presenter.loadChapterList(tabMap[tabList[lastSelectTabIndex]]!!.id,0)
         }
 
         chapterRefreshLayout.setOnLoadMoreListener {
+            isRefreshing = false
             val page = getPageIndexOfTab(lastSelectTabIndex)
             presenter.loadChapterList(tabMap[tabList[lastSelectTabIndex]]!!.id,page)
         }
 
+
+        setSupportActionBar(toolBar)
+
+        toolBar.title = "公众号"
+        toolBar.setTitleTextColor(Color.parseColor("#ffffff"))
 
     }
 

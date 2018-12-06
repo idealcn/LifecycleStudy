@@ -29,30 +29,35 @@ class ChapterPresenter @Inject constructor() : ChapterContract.Presenter<Chapter
 
 
     fun loadChapterList(tabId : Int,page : Int){
-        RetrofitClient.newInstance().api.chapterHistoryList(tabId,page)
-            .ext()
-            .compose(RxErrorHandler.handlerError(chapterView.get()!! as TencentChapterActivity))
-            .doOnSubscribe {
-                chapterView.get()?.showRequestProgress("请求中")
-            }
-            .doOnNext {
-                chapterView.get()?.showRequestSuccess("请求成功")
-            }
-            .subscribe({
-                val errorCode = it.errorCode
-                when (errorCode) {
-                    Api.ErrorCode.CODE_0 -> {
-                        val data = it.data
-                        chapterView.get()?.showRequestResult(data)
-                    }
-                    else -> {
-
-                    }
+        val view = chapterView.get()
+        view?.run {
+            view
+            RetrofitClient.newInstance().api.chapterHistoryList(tabId,page)
+                .ext()
+                .compose(RxErrorHandler.handlerError(view as TencentChapterActivity))
+                .doOnSubscribe {
+                    view.showRequestProgress("请求中")
                 }
-            },{
+                .doOnNext {
+                    view.showRequestSuccess("请求成功")
+                }
+                .subscribe({
+                    val errorCode = it.errorCode
+                    when (errorCode) {
+                        Api.ErrorCode.CODE_0 -> {
+                            val data = it.data
+                            view.showRequestResult(data)
+                        }
+                        else -> {
 
-            },{
+                        }
+                    }
+                },{
 
-            })
+                },{
+
+                })
+        }
+
     }
 }
