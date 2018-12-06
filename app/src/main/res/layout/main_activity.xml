@@ -64,7 +64,7 @@
 
     <FrameLayout
             android:id="@+id/drawContainer"
-            android:layout_gravity="left"
+            android:layout_gravity="left|start"
             android:background="#dfdfdf"
             android:layout_width="220dp"
             android:layout_height="match_parent">

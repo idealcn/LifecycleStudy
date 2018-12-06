@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import com.idealcn.lifecycle.study.ActivityLifecycleObserver
@@ -43,6 +44,8 @@ class MainActivity : BaseActivity() {
 
 
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+
+    private  var drawerFragment : DrawerFragment? = null
 
     @Inject
     lateinit var presenter: MainPresenter
@@ -136,6 +139,13 @@ class MainActivity : BaseActivity() {
         }
 
 
+
+        if (supportFragmentManager.findFragmentByTag("drawer")==null){
+            supportFragmentManager.beginTransaction().add(R.id.drawContainer,DrawerFragment(),"drawer").commit()
+        }else {
+            drawerFragment = supportFragmentManager.findFragmentByTag("drawer") as DrawerFragment
+        }
+
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -182,6 +192,13 @@ class MainActivity : BaseActivity() {
 //            disposable.dispose()
 //        }
 
+    }
+
+    /**
+     * 关闭左侧
+     */
+    fun closeDrawer() {
+        drawerLayout.closeDrawer(Gravity.LEFT)
     }
 
 }

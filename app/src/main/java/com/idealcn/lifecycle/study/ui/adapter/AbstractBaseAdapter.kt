@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-abstract class AbstractBaseAdapter<T>(var list : ArrayList<T>) : RecyclerView.Adapter<AbstractBaseHolder>() {
+abstract class AbstractBaseAdapter<T> : RecyclerView.Adapter<AbstractBaseHolder> {
+
+
+
 
     companion object {
         const val TYPE_HEADER = 0
@@ -15,6 +18,16 @@ abstract class AbstractBaseAdapter<T>(var list : ArrayList<T>) : RecyclerView.Ad
 
     private var mHeaderView : View? = null
     private var mFooterView : View? = null
+
+    private  var dataList :ArrayList<T>
+
+    constructor(){
+        dataList = arrayListOf()
+    }
+
+    constructor ( list : ArrayList<T>){
+        dataList = list
+    }
 
     override fun onBindViewHolder(holder: AbstractBaseHolder, position: Int) {
         val type = getItemViewType(position)
@@ -26,7 +39,8 @@ abstract class AbstractBaseAdapter<T>(var list : ArrayList<T>) : RecyclerView.Ad
 
             }
             TYPE_NORMAL -> {
-                onBindNormalHolder(holder,holder.layoutPosition)
+
+                onBindNormalHolder(holder,holder.layoutPosition,dataList[holder.layoutPosition])
             }
             else -> {
 
@@ -35,7 +49,11 @@ abstract class AbstractBaseAdapter<T>(var list : ArrayList<T>) : RecyclerView.Ad
 
     }
 
-    abstract fun onBindNormalHolder(holder: AbstractBaseHolder, position: Int)
+    abstract fun onBindNormalHolder(
+        holder: AbstractBaseHolder,
+        position: Int,
+        t: T
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractBaseHolder {
         val context = parent.context
@@ -45,7 +63,7 @@ abstract class AbstractBaseAdapter<T>(var list : ArrayList<T>) : RecyclerView.Ad
     }
 
     override fun getItemCount(): Int {
-        var size = list.size
+        var size = dataList.size
         if (getHeaderView()!=null)size += 1
         if (getFooterView()!=null)size += 1
         return  size
@@ -85,15 +103,25 @@ abstract class AbstractBaseAdapter<T>(var list : ArrayList<T>) : RecyclerView.Ad
     }
 
     fun addData(data: ArrayList<T>) {
-        val size = list.size
-        if (size>0){
-            list.addAll(size,data)
-        }else
-           list.addAll(0,data)
+        val size = dataList.size
+//        if (size>0){
+            dataList.addAll(size,data)
+//        }else
+//            dataList.addAll(0,data)
+        notifyItemRangeChanged(size,data.size)
     }
 
     fun addData( index : Int,data : ArrayList<T> ){
-            list.addAll(index,data)
+        dataList.addAll(index,data)
+    }
+
+    fun getData() : ArrayList<T>{
+        return dataList
+    }
+
+    fun clearData() {
+        dataList.clear()
+        notifyDataSetChanged()
     }
 
 

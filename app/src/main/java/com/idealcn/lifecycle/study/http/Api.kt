@@ -54,7 +54,7 @@ interface Api {
      * http://wanandroid.com/wxarticle/chapters/json
      */
     @GET("wxarticle/chapters/json")
-    fun chapterList() : Single<BaseResponseBean<List<Chapter>>>
+    fun chapterList() : Observable<BaseResponseBean<List<Chapter>>>
 
 
     /**
@@ -62,7 +62,7 @@ interface Api {
      * http://wanandroid.com/wxarticle/list/405/1/json
      */
     @GET("wxarticle/list/{chapterId}/{pageIndex}/json")
-    fun chapterHistoryList(@Path("chapterId")chapterId : Int,@Path("pageIndex")pageIndex : Int) : Single<BaseResponseBean<ChapterHistory>>
+    fun chapterHistoryList(@Path("chapterId")chapterId : Int,@Path("pageIndex")pageIndex : Int) : Observable<BaseResponseBean<ChapterHistory>>
 
 
     /**

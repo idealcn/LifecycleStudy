@@ -11,11 +11,8 @@ import android.view.ViewGroup
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.Chapter
 import com.idealcn.lifecycle.study.bean.ChapterHistory
-import com.idealcn.lifecycle.study.ext.ext
-import com.idealcn.lifecycle.study.http.RetrofitClient
 import com.idealcn.lifecycle.study.ui.adapter.AbstractBaseAdapter
 import com.idealcn.lifecycle.study.ui.adapter.AbstractBaseHolder
-import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.adapter_chapter.view.*
@@ -38,11 +35,15 @@ class ChapterFragment : Fragment() {
 
 
     private val adapter : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild> = object : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild>(dataList){
-        override fun onBindNormalHolder(holder: AbstractBaseHolder, position: Int) {
-            val chapter = list[position]
-            holder.itemView.title.text = chapter.title
-            holder.itemView.author.text = String.format(Locale.CHINESE,"by %s",chapter.author)
-            holder.itemView.superChapterName.text = chapter.superChapterName
+        override fun onBindNormalHolder(
+            holder: AbstractBaseHolder,
+            position: Int,
+            t: ChapterHistory.ChapterHistoryChild
+        ) {
+//            val chapter = list[position]
+//            holder.itemView.title.text = chapter.title
+//            holder.itemView.author.text = String.format(Locale.CHINESE,"by %s",chapter.author)
+//            holder.itemView.superChapterName.text = chapter.superChapterName
         }
 
         override fun getLayout(): Int {
@@ -115,18 +116,18 @@ class ChapterFragment : Fragment() {
 
 
     private fun loadData() {
-        val disposable = RetrofitClient.newInstance().api.chapterHistoryList(chapterId = chapter.id, pageIndex = pageIndex )
-//            .compose(ErrorTransformer<>)
-            .ext().subscribe({
-                val errorCode = it.errorCode
-                val data :ArrayList<ChapterHistory.ChapterHistoryChild> = it.data.datas
-                if (errorCode==0){
-                    Observable.fromArray(data).subscribeWith(observer)
-                }
-
-            }, {
-                it.message
-            })
+//        val disposable = RetrofitClient.newInstance().api.chapterHistoryList(chapterId = chapter.id, pageIndex = pageIndex )
+////            .compose(ErrorTransformer<>)
+//            .ext().subscribe({
+//                val errorCode = it.errorCode
+//                val data :ArrayList<ChapterHistory.ChapterHistoryChild> = it.data.datas
+//                if (errorCode==0){
+//                    Observable.fromArray(data).subscribeWith(observer)
+//                }
+//
+//            }, {
+//                it.message
+//            })
     }
 
 

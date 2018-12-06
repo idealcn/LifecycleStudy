@@ -8,8 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.idealcn.lifecycle.study.R
+import com.idealcn.lifecycle.study.ext.goto
+import com.idealcn.lifecycle.study.ui.activity.MainActivity
 import com.idealcn.lifecycle.study.ui.activity.RegisterActivity
+import com.idealcn.lifecycle.study.ui.activity.TencentChapterActivity
+import com.jakewharton.rxbinding2.view.RxView
 import kotlinx.android.synthetic.main.fragment_drawer.*
+import java.util.concurrent.TimeUnit
 
 class DrawerFragment :Fragment() {
 
@@ -39,6 +44,23 @@ class DrawerFragment :Fragment() {
         avatar.setOnClickListener {
             startActivity(Intent(_context,RegisterActivity::class.java))
         }
+
+        RxView.clicks(leftHome).throttleLatest(500,TimeUnit.MILLISECONDS)
+            .subscribe {
+                (_context as MainActivity).closeDrawer()
+            }
+        RxView.clicks(leftGongZhongHao).throttleLatest(500,TimeUnit.MILLISECONDS)
+            .subscribe {
+                (_context as MainActivity).goto(TencentChapterActivity::class.java)
+            }
+    }
+
+
+
+    override fun onStop() {
+        super.onStop()
+        (_context as MainActivity).closeDrawer()
+
     }
 
 }

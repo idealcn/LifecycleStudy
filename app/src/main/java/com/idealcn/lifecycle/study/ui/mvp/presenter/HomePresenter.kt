@@ -36,7 +36,8 @@ class HomePresenter @Inject constructor() :HomeContract.Presenter<HomeView> {
     }
     override fun attach(view: HomeView) {
         this.weakReference = WeakReference<HomeView>(view)
-//        homeModel = ViewModelProviders.of(view as MainFragment) .get(HomeModel::class.java)
+//        homeModel =
+ //ViewModelProviders.of(view as MainFragment) .get(HomeModel::class.java)
     }
 
 

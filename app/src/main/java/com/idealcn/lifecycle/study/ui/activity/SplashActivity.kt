@@ -63,7 +63,7 @@ class SplashActivity : AppCompatActivity() {
         )
 
 
-        val index =5L
+        val index =3L
         compositeDisposable.add(
             //倒计时
             Flowable.intervalRange(0,index,1,1,TimeUnit.SECONDS)
