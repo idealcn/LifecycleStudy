@@ -59,11 +59,24 @@ def room_version = "2.1.0-alpha02"
 # RecyclerView
     1. 优化
     2. 瀑布流
+    3. 多itemType布局
+    4. 动画
     
 # 多状态布局
     
 
 # material design
+
+## CollapsingToolbarLayout
+ 折叠的FrameLayout,用作AppBarLayout的直接子View
+## CoordinatorLayout
+
+## AppBarLayout
+
+## ToolBar
+
+## 反射
+ 如果通过类名生成对应的类
 
 ## DrawerLayout
  参考官方文档:https://developer.android.google.cn/training/implementing-navigation/nav-drawer

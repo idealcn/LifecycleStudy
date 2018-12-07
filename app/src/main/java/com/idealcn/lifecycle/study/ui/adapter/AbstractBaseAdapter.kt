@@ -117,6 +117,8 @@ abstract class AbstractBaseAdapter<T,D :ViewDataBinding> : RecyclerView.Adapter<
 
     fun clearData() {
         dataList.clear()
+        //这一步是考虑到多个tab共用一个RecyclerView,如果只是清空数据集合,
+        // 而不刷新RecyclerView,新加载的数据大小与之前不一致会导致IndexOutOfBound异常
         notifyDataSetChanged()
     }
 

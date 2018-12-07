@@ -3,6 +3,7 @@ package com.idealcn.lifecycle.study.ui.activity
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import com.idealcn.lifecycle.study.R
@@ -24,6 +25,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_tencent_chapter.*
 import kotlinx.android.synthetic.main.adapter_chapter.view.*
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 /**
@@ -105,7 +107,7 @@ class TencentChapterActivity : BaseActivity(), ChapterView {
         presenter.attach(this)
 
         chapterHistoryList.adapter = adapter
-        chapterHistoryList.layoutManager = LinearLayoutManager(this)
+//        chapterHistoryList.layoutManager = LinearLayoutManager(this)
         chapterHistoryList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         compositeDisposable.add(
@@ -156,22 +158,25 @@ class TencentChapterActivity : BaseActivity(), ChapterView {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
+                tab?.run {
+                    val position = tab.position
 
-                val position = tab!!.position
+                    if (lastSelectTabIndex == position) return
 
-                if (lastSelectTabIndex == position) return
+                    lastSelectTabIndex = position
 
-                lastSelectTabIndex = position
+                    switchTab = true
 
-                switchTab = true
-
-                val arrayList = map[tabList[position]]
-                arrayList?.run {
-                    adapter.clearData()
-                    adapter.addData(this)
-                    return
+                    val arrayList = map[tabList[position]]
+                    arrayList?.run {
+                        adapter.clearData()
+                        adapter.addData(this)
+                        return
+                    }
+                    chapterRefreshLayout.autoRefresh()
                 }
-                chapterRefreshLayout.autoRefresh()
+
+
             }
         })
 
@@ -192,7 +197,11 @@ class TencentChapterActivity : BaseActivity(), ChapterView {
 
         setSupportActionBar(toolBar)
 //        TODO("研究一下toolbar的用法")
-        toolBar.title = "公众号"
+        //toolBar.title = "公众号"//这个无效果
+//        supportActionBar?.setTitle("公众号") ?: throw RuntimeException("不支持ActionBar")
+        collapsingToolbarLayout.title = "公众号"
+        collapsingToolbarLayout.setExpandedTitleColor(Color.parseColor("#ffffff"))
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this,R.color.colorPrimary))
         toolBar.setTitleTextColor(Color.parseColor("#ffffff"))
 
     }
