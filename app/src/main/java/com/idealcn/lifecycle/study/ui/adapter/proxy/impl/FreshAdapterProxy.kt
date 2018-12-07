@@ -6,6 +6,7 @@ import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.ChapterHistory
 import com.idealcn.lifecycle.study.ui.adapter.AbstractBaseHolder
 import com.idealcn.lifecycle.study.ui.adapter.proxy.IProxyAdapter
+import kotlinx.android.synthetic.main.adapter_fresh_chapter.view.*
 
 /**
  * @author: guoning
@@ -15,7 +16,7 @@ import com.idealcn.lifecycle.study.ui.adapter.proxy.IProxyAdapter
 class FreshAdapterProxy : IProxyAdapter<ChapterHistory.ChapterHistoryChild> {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractBaseHolder {
 
-        val root = LayoutInflater.from(parent.context).inflate(R.layout.adapter_frash_chapter, parent, false)
+        val root = LayoutInflater.from(parent.context).inflate(R.layout.adapter_fresh_chapter, parent, false)
         return AbstractBaseHolder(root)
     }
 
@@ -25,6 +26,7 @@ class FreshAdapterProxy : IProxyAdapter<ChapterHistory.ChapterHistoryChild> {
     }
 
     override fun  onBindViewHolder(holder: AbstractBaseHolder, layoutPosition: Int, data: ChapterHistory.ChapterHistoryChild) {
-
+        holder.root.author.text = data.author
+        holder.root.chapterTitle.text = data.title
     }
 }
