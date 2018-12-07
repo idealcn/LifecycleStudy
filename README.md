@@ -61,6 +61,10 @@ def room_version = "2.1.0-alpha02"
     2. 瀑布流
     3. 多itemType布局
     4. 动画
+    5 .滚动和快速滑动
+    6. SnapHelper
+    7. LayoutManager
+    8. 如何复用view
     
 # 多状态布局
     
