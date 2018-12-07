@@ -5,27 +5,24 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.base.BaseActivity
 import com.idealcn.lifecycle.study.bean.Chapter
 import com.idealcn.lifecycle.study.bean.ChapterHistory
 import com.idealcn.lifecycle.study.dagger.component.DaggerChapterComponent
-import com.idealcn.lifecycle.study.databinding.AdapterChapterBinding
 import com.idealcn.lifecycle.study.exception.BaseThrowable
 import com.idealcn.lifecycle.study.ext.ext
 import com.idealcn.lifecycle.study.http.Api
 import com.idealcn.lifecycle.study.http.RetrofitClient
 import com.idealcn.lifecycle.study.transformer.RxErrorHandler
 import com.idealcn.lifecycle.study.ui.adapter.AbstractBaseAdapter
-import com.idealcn.lifecycle.study.ui.adapter.AbstractBaseHolder
+import com.idealcn.lifecycle.study.ui.adapter.proxy.impl.FreshAdapterProxy
+import com.idealcn.lifecycle.study.ui.adapter.proxy.impl.NormalAdapterProxy
 import com.idealcn.lifecycle.study.ui.mvp.presenter.ChapterPresenter
 import com.idealcn.lifecycle.study.ui.mvp.view.ChapterView
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_tencent_chapter.*
-import kotlinx.android.synthetic.main.adapter_chapter.view.*
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 /**
@@ -81,20 +78,7 @@ class TencentChapterActivity : BaseActivity(), ChapterView {
     @Inject
     lateinit var presenter: ChapterPresenter
 
-    private val adapter = object : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild, AdapterChapterBinding>() {
-        override fun getLayout(): Int {
-            return R.layout.adapter_chapter
-        }
-
-        override fun onBindNormalHolder(
-            holder: AbstractBaseHolder<AdapterChapterBinding>,
-            position: Int,
-            child: ChapterHistory.ChapterHistoryChild
-        ) {
-            holder.dataBinding.child = child
-        }
-
-    }
+    private val adapter = object : AbstractBaseAdapter<ChapterHistory.ChapterHistoryChild>(){}
 
     override fun getLayout(): Int {
         return R.layout.activity_tencent_chapter
@@ -106,8 +90,9 @@ class TencentChapterActivity : BaseActivity(), ChapterView {
         DaggerChapterComponent.builder().build().inject(this)
         presenter.attach(this)
 
+        adapter.addProxyAdapter(NormalAdapterProxy())
+        adapter.addProxyAdapter(FreshAdapterProxy())
         chapterHistoryList.adapter = adapter
-//        chapterHistoryList.layoutManager = LinearLayoutManager(this)
         chapterHistoryList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         compositeDisposable.add(

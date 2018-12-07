@@ -1,13 +1,14 @@
 package com.idealcn.lifecycle.study.ui.adapter
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.idealcn.lifecycle.study.bean.ChapterHistory
+import com.idealcn.lifecycle.study.ui.adapter.proxy.IProxyAdapter
+import java.lang.RuntimeException
 
-abstract class AbstractBaseAdapter<T,D :ViewDataBinding> : RecyclerView.Adapter<AbstractBaseHolder<D>> {
+abstract class AbstractBaseAdapter<T> : RecyclerView.Adapter<AbstractBaseHolder> {
 
 
     companion object {
@@ -21,6 +22,8 @@ abstract class AbstractBaseAdapter<T,D :ViewDataBinding> : RecyclerView.Adapter<
 
     private  var dataList :ArrayList<T>
 
+    private val proxyAdapterList = mutableListOf<IProxyAdapter<T>>()
+
     constructor(){
         dataList = arrayListOf()
     }
@@ -29,38 +32,56 @@ abstract class AbstractBaseAdapter<T,D :ViewDataBinding> : RecyclerView.Adapter<
         dataList = list
     }
 
-    override fun onBindViewHolder(holder: AbstractBaseHolder<D>, position: Int) {
-        val type = getItemViewType(position)
-        when(type){
-            TYPE_HEADER -> {
+    override fun onBindViewHolder(holder: AbstractBaseHolder, position: Int) {
+//        val type = getItemViewType(position)
+//        when(type){
+//            TYPE_HEADER -> {
+//
+//            }
+//            TYPE_FOOTER -> {
+//
+//            }
+//            TYPE_NORMAL -> {
+//
+//                onBindNormalHolder(holder,holder.layoutPosition,dataList[holder.layoutPosition])
+//            }
+//            else -> {
+//                val proxy = proxyAdapterList[getItemViewType(position)]
+//                proxy.onBindViewHolder(holder,holder.layoutPosition,dataList[holder.layoutPosition])
+//            }
+//        }
 
-            }
-            TYPE_FOOTER -> {
-
-            }
-            TYPE_NORMAL -> {
-
-                onBindNormalHolder(holder,holder.layoutPosition,dataList[holder.layoutPosition])
-            }
-            else -> {
-
-            }
-        }
+        val itemViewType = holder.itemViewType
+        val iProxyAdapter = proxyAdapterList[itemViewType]
+        iProxyAdapter.onBindViewHolder(holder,holder.layoutPosition,dataList[holder.layoutPosition])
 
     }
 
-    abstract fun onBindNormalHolder(
-        holder: AbstractBaseHolder<D>,
-        position: Int,
-        t: T
-    )
+//    abstract fun onBindNormalHolder(
+//        holder: AbstractBaseHolder,
+//        position: Int,
+//        t: T
+//    )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractBaseHolder<D> {
-        val context = parent.context
-        val dataBinding :D = DataBindingUtil.inflate(LayoutInflater.from(context),getLayout(),parent,false)
-        val holder :AbstractBaseHolder<D>
-         holder = AbstractBaseHolder<D>(dataBinding)
-        return holder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractBaseHolder {
+
+
+//       if (proxyAdapterList.isNotEmpty()){
+//            val iProxyAdapter :IProxyAdapter<T>? = proxyAdapterList[viewType]
+//            iProxyAdapter?.run {
+//                return onCreateViewHolder(parent,viewType)
+//            }
+//        }
+
+        val iProxyAdapter = proxyAdapterList[viewType]
+        val viewHolder = iProxyAdapter.onCreateViewHolder(parent, viewType)
+        return viewHolder
+
+
+//        val context = parent.context
+//        val holder :AbstractBaseHolder
+//         holder = AbstractBaseHolder(LayoutInflater.from(context).inflate(getLayout(),parent,false))
+//        return holder
     }
 
     override fun getItemCount(): Int {
@@ -71,15 +92,29 @@ abstract class AbstractBaseAdapter<T,D :ViewDataBinding> : RecyclerView.Adapter<
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (getHeaderView()!=null && position==0)return TYPE_HEADER
-        if (getFooterView()!=null && position == itemCount-1)return TYPE_FOOTER
-        return TYPE_NORMAL
+
+
+//        if (getHeaderView()!=null && position==0)return TYPE_HEADER
+//        if (getFooterView()!=null && position == itemCount-1)return TYPE_FOOTER
+
+        val data = dataList[position]
+        proxyAdapterList.forEach{ proxy ->
+            if (proxy.canParseViewType(data)){
+                return proxyAdapterList.indexOf(proxy)
+            }
+        }
+        throw RuntimeException("未找到对应的代理adapter,你需要先添加IAdapterProxyImpl去处理对应的布局")
     }
 
+    /**
+     * 返回布局id
+     */
+//    abstract fun getLayout() : Int
 
-    abstract fun getLayout() : Int
 
-
+    fun addProxyAdapter(proxy : IProxyAdapter<T>){
+            proxyAdapterList.add(proxy)
+    }
 
     fun  addHeaderView(headerView : View){
         this.mHeaderView = headerView
