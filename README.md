@@ -65,6 +65,9 @@ def room_version = "2.1.0-alpha02"
     6. SnapHelper
     7. LayoutManager
     8. 如何复用view
+    9. position
+       getAdapterPosition 和 getLayoutPosition
+       
     
 # 多状态布局
     
