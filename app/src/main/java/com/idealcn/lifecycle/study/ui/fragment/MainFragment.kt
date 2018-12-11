@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.MotionEvent
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.dagger.component.DaggerHomeComponent
@@ -15,6 +17,7 @@ import com.idealcn.lifecycle.study.ui.adapter.HomeArticleAdapter
 import com.idealcn.lifecycle.study.ui.mvp.model.HomeModel
 import com.idealcn.lifecycle.study.ui.mvp.presenter.HomePresenter
 import com.idealcn.lifecycle.study.ui.mvp.view.HomeView
+import com.idealcn.lifecycle.study.widget.recyclerView.RecyclerViewOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -42,10 +45,24 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
         homeRecyclerView.addItemDecoration(decoration)
         articleAdapter = HomeArticleAdapter(_context)
         homeRecyclerView.adapter = articleAdapter
-        articleAdapter.setOnAdapterItemClickListener(object : HomeArticleAdapter.OnAdapterItemClickListener{
-            override fun onItemClick(position: Int) {
-                val article = articleAdapter.getData()[position]
-                startActivity(Intent(_context, ArticleDetailActivity::class.java).putExtra("article",article))
+//        articleAdapter.setOnAdapterItemClickListener(object : HomeArticleAdapter.OnAdapterItemClickListener{
+//            override fun onItemClick(position: Int) {
+//                val article = articleAdapter.getData()[position]
+//                startActivity(Intent(_context, ArticleDetailActivity::class.java).putExtra("article",article))
+//            }
+//
+//        })
+        homeRecyclerView.addOnItemTouchListener(object : RecyclerViewOnItemClickListener(homeRecyclerView){
+            override fun onItemClick(holder: RecyclerView.ViewHolder?) {
+              holder?.let {
+                  val article = articleAdapter.getData()[holder.layoutPosition]
+                  startActivity(Intent(_context, ArticleDetailActivity::class.java).putExtra("article",article))
+
+              }
+            }
+
+            override fun onItemLongClick(holder: RecyclerView.ViewHolder?) {
+
             }
 
         })

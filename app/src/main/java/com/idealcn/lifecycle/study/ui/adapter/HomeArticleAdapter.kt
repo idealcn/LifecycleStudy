@@ -18,15 +18,15 @@ class HomeArticleAdapter constructor(  context: Context) : RecyclerView.Adapter<
 
     private var articleList: MutableList<Article> = mutableListOf()
 
-    private  var listener : OnAdapterItemClickListener? = null
+//    private  var listener : OnAdapterItemClickListener? = null
 
-    interface OnAdapterItemClickListener{
-        fun onItemClick(position: Int)
-    }
-
-     fun setOnAdapterItemClickListener(listener: OnAdapterItemClickListener){
-        this.listener = listener
-    }
+//    interface OnAdapterItemClickListener{
+//        fun onItemClick(position: Int)
+//    }
+//
+//     fun setOnAdapterItemClickListener(listener: OnAdapterItemClickListener){
+//        this.listener = listener
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleHolder {
         val binding =
@@ -39,6 +39,10 @@ class HomeArticleAdapter constructor(  context: Context) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ArticleHolder, position: Int) {
+
+        val adapterPosition = holder.adapterPosition
+        if (adapterPosition==RecyclerView.NO_POSITION)return
+
         val binding = holder.binding
         val article = articleList[holder.layoutPosition]
 
@@ -46,12 +50,12 @@ class HomeArticleAdapter constructor(  context: Context) : RecyclerView.Adapter<
 
 //        holder.author.text = article.author
 //        holder.chapterName.text = article.chapterName
-        holder.itemView.tag = holder.layoutPosition
-        holder.itemView.setOnClickListener {
-            val tag = holder.itemView.tag
-            if (tag != holder.layoutPosition) return@setOnClickListener
-            listener?.onItemClick(holder.layoutPosition)
-        }
+//        holder.itemView.tag = adapterPosition
+//        holder.itemView.setOnClickListener {
+//            val tag = holder.itemView.tag
+//            if (tag != adapterPosition) return@setOnClickListener
+//            listener?.onItemClick(adapterPosition)
+//        }
     }
 
     fun setData(index: Int, list: List<Article>?) {
