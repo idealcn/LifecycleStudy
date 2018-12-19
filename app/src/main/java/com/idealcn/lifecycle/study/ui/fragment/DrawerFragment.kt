@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.ext.goto
+import com.idealcn.lifecycle.study.ui.activity.LoginActivity
 import com.idealcn.lifecycle.study.ui.activity.MainActivity
 import com.idealcn.lifecycle.study.ui.activity.RegisterActivity
 import com.idealcn.lifecycle.study.ui.activity.TencentChapterActivity
@@ -42,7 +43,7 @@ class DrawerFragment :Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         avatar.setOnClickListener {
-            startActivity(Intent(_context,RegisterActivity::class.java))
+            startActivity(Intent(_context,LoginActivity::class.java))
         }
 
         RxView.clicks(leftHome).throttleLatest(500,TimeUnit.MILLISECONDS)

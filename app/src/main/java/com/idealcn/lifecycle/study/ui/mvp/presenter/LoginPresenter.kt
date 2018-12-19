@@ -3,6 +3,8 @@ package com.idealcn.lifecycle.study.ui.mvp.presenter
 import android.arch.lifecycle.ViewModelProviders
 import android.text.TextUtils
 import com.idealcn.lifecycle.study.AppHelper
+import com.idealcn.lifecycle.study.bean.BaseResponseBean
+import com.idealcn.lifecycle.study.bean.ResponseLoginBean
 import com.idealcn.lifecycle.study.ext.ext
 import com.idealcn.lifecycle.study.http.Api
 import com.idealcn.lifecycle.study.http.RetrofitClient
@@ -13,8 +15,10 @@ import com.idealcn.lifecycle.study.ui.mvp.model.LoginModel
 import com.idealcn.lifecycle.study.ui.mvp.view.LoginView
 import com.idealcn.lifecycle.study.ui.mvp.view.RegisterView
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
 import java.lang.ref.WeakReference
@@ -43,22 +47,54 @@ class LoginPresenter @Inject constructor() : LoginContract.Presenter<LoginView> 
 
     override fun login(username: String?, password: String?) {
 
-        compositeDisposable.add(
-            Observable.just(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password))
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap {
-                    if (it) {
-                        ViewModelProviders.of(weakReference.get() as LoginActivity)
-                            .get(LoginModel::class.java)
-                            .login(username,password)
-                            .doOnSubscribe {
-                                show("登录中",1)
-                            }
-                    } else {
-                        Observable.empty()
-                    }
+        Observable.just(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password))
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap {
+                if (it) {
+                    ViewModelProviders.of(weakReference.get() as LoginActivity)
+                        .get(LoginModel::class.java)
+                        .login(username, password)
+                        .doOnSubscribe {
+                            show("登录中", 1)
+                        }
+                } else {
+                    Observable.empty()
                 }
-                .subscribe({ next ->
+            }
+            .doFinally {
+                println("----------")
+            }
+        .subscribe(object : Observer<BaseResponseBean<ResponseLoginBean>>{
+            override fun onComplete() {
+                println("----------")
+            }
+
+            override fun onSubscribe(d: Disposable) {
+            }
+
+            override fun onNext(next: BaseResponseBean<ResponseLoginBean>) {
+
+                val errorCode = next.errorCode
+                val errorMsg = next.errorMsg
+                val data = next.data
+                show(errorMsg,errorCode)
+                if (errorCode==Api.ErrorCode.CODE_0) {
+                    ViewModelProviders.of(weakReference.get() as LoginActivity)
+                        .get(LoginModel::class.java)
+                        .saveUser(data)
+                }
+
+            }
+
+            override fun onError(throwable: Throwable) {
+                println(throwable.message)
+            }
+
+        })
+
+
+        /*
+        { next ->
                     val errorCode = next.errorCode
                     val errorMsg = next.errorMsg
                     val data = next.data
@@ -70,9 +106,10 @@ class LoginPresenter @Inject constructor() : LoginContract.Presenter<LoginView> 
                     }
                 }, { throwable ->
                     println(throwable.message)
-                }, {})
-        )
-
+                }, {
+                    println("----------")
+                }
+         */
     }
 
 
