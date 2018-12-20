@@ -21,7 +21,7 @@
         <activity android:name=".ui.activity.ArticleDetailActivity">
         </activity>
         <activity android:name=".ui.activity.RegisterActivity"/>
-        <activity android:name=".ui.activity.LoginActivity"/>
+        <activity android:name=".ui.activity.LoginActivity" android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.TencentChapterActivity"/>
     </application>

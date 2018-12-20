@@ -23,7 +23,7 @@ class MainViewModel : ViewModel() {
           //.compose(RxErrorHandler.handlerError(AppApplication.getAppContext()))
           .doOnSubscribe {
               println("----------------doOnSubscribe-------------------")
-              RxDialog.showProgressDialog(AppApplication.getAppContext(),"加载中")
+              RxDialog.showProgressDialog(AppApplication.get(),"加载中")
                   .doOnNext {
 
                   }

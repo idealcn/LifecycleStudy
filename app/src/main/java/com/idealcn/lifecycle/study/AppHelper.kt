@@ -1,7 +1,7 @@
 package com.idealcn.lifecycle.study
 
 import com.idealcn.lifecycle.study.bean.ResponseLoginBean
-import com.idealcn.lifecycle.study.room.AppRoomDatabase
+import com.idealcn.lifecycle.study.greendao.source.DaoSession
 
 class AppHelper {
 
@@ -18,8 +18,8 @@ class AppHelper {
     }
 
 
-    fun getDatabase() : AppRoomDatabase {
-        return AppApplication.getDatabase()
+    fun getDaoSession() : DaoSession {
+        return AppApplication.get().getDaoSession()
     }
 
     fun saveUser(user: ResponseLoginBean) {

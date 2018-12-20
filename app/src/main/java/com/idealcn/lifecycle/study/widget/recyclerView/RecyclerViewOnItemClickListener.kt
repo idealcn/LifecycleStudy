@@ -14,8 +14,8 @@ import android.view.View
 abstract class RecyclerViewOnItemClickListener constructor(var recyclerView: RecyclerView)
     : RecyclerView.OnItemTouchListener {
 
-    private lateinit var gestureDetectorCompat: GestureDetectorCompat
-    private lateinit var simpleOnGestureListener: GestureDetector.OnGestureListener
+    private  var gestureDetectorCompat: GestureDetectorCompat
+    private  var simpleOnGestureListener: GestureDetector.OnGestureListener
     init {
         simpleOnGestureListener = object : GestureDetector.SimpleOnGestureListener(){
             override fun onSingleTapUp(e: MotionEvent?): Boolean {

@@ -57,7 +57,7 @@ class RegisterActivity : AppCompatActivity() , RegisterView {
     }
 
     override fun gotoActivity() {
-        gotoAndFinishActivity(MainActivity::class.java)
+        gotoAndFinishActivity(LoginActivity::class.java)
     }
 
 
