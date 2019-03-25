@@ -6,7 +6,12 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.chad.library.adapter.base.BaseViewHolder
 import com.idealcn.lifecycle.study.R
+import com.idealcn.lifecycle.study.base.adapter.XBKBaseAdapter
+import com.idealcn.lifecycle.study.bean.Article
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.dagger.component.DaggerHomeComponent
 import com.idealcn.lifecycle.study.decoration.CollectDecoration
@@ -22,9 +27,11 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
 
 
 
-    private lateinit var articleAdapter  : HomeArticleAdapter
+//    private lateinit var articleAdapter  : HomeArticleAdapter
 
-    private var page = 0
+    private lateinit var xbkBaseAdapter: XBKBaseAdapter<Article, HomeArticleAdapter.ArticleHolder>
+
+   private var page = 0
 
 
     private lateinit var decoration : CollectDecoration
@@ -40,19 +47,25 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
         decoration = CollectDecoration(_context)
         homeRecyclerView.layoutManager = LinearLayoutManager(_context)
         homeRecyclerView.addItemDecoration(decoration)
-        articleAdapter = HomeArticleAdapter(_context)
-        homeRecyclerView.adapter = articleAdapter
-        articleAdapter.setOnAdapterItemClickListener(object : HomeArticleAdapter.OnAdapterItemClickListener{
-            override fun onItemClick(position: Int) {
-                val article = articleAdapter.getData()[position]
-                startActivity(Intent(_context, ArticleDetailActivity::class.java).putExtra("article",article))
-            }
+//        articleAdapter = HomeArticleAdapter(_context)
 
-        })
+        xbkBaseAdapter = XBKBaseAdapter()
+        xbkBaseAdapter.addMultiTypeAdapter(HomeArticleAdapter(_context))
+
+        homeRecyclerView.adapter = xbkBaseAdapter
+//        articleAdapter.setOnAdapterItemClickListener(object : HomeArticleAdapter.OnAdapterItemClickListener{
+//            override fun onItemClick(position: Int) {
+//                val article = articleAdapter.getData()[position]
+//                startActivity(Intent(_context, ArticleDetailActivity::class.java).putExtra("article",article))
+//            }
+//
+//        })
 //        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(_context,R.color.colorPrimary))
 //        swipeRefreshLayout.setOnRefreshListener {
 //            refreshData()
 //        }
+
+        xbkBaseAdapter.addHeaderView(LayoutInflater.from(_context).inflate(R.layout.layout_home_header,view as ViewGroup,false))
 
         smartRefreshLayout.setOnRefreshListener {
             if (page>0)return@setOnRefreshListener
@@ -129,7 +142,7 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
     override fun showRequestResult(data: HomeArticleBean) {
         val list = data.datas
         decoration.setData(decoration.getData().size,list)
-        articleAdapter.setData(articleAdapter.getData().size,list)
+        xbkBaseAdapter.addData(xbkBaseAdapter.getData().size,list)
     }
 
 

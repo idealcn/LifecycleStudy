@@ -1,5 +1,6 @@
 package com.idealcn.lifecycle.study.ui.activity
 
+import android.arch.lifecycle.Lifecycle
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +8,8 @@ import com.idealcn.lifecycle.study.AppHelper
 import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.ext.gotoAndFinishActivity
 import com.jakewharton.rxbinding2.view.RxView
+import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle
+import com.trello.rxlifecycle2.RxLifecycle
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -28,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        var count = 5
+       /* var count = 5
         compositeDisposable.add(
             RxView.clicks(btnTimer).throttleFirst(300,TimeUnit.MILLISECONDS)
                 .doOnSubscribe {
@@ -60,13 +63,14 @@ class SplashActivity : AppCompatActivity() {
                 },{
 
                 })
-        )
+        )*/
 
-
+        val lifecycleProvider = AndroidLifecycle.createLifecycleProvider(this)
         val index =3L
         compositeDisposable.add(
             //倒计时
-            Flowable.intervalRange(0,index,1,1,TimeUnit.SECONDS)
+            Flowable.intervalRange(1,index,0,1,TimeUnit.SECONDS)
+                .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
                 .map {
                     index - it
                 }
