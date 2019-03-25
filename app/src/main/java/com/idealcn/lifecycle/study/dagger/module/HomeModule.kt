@@ -1,6 +1,8 @@
 package com.idealcn.lifecycle.study.dagger.module
 
+import com.idealcn.lifecycle.study.ui.mvp.model.MainViewModel
 import dagger.Module
+import dagger.Provides
 
 /**
  * author:guoning
@@ -9,4 +11,6 @@ import dagger.Module
  */
 @Module
 class HomeModule {
+    @Provides
+    fun provideMainViewModel(model: MainViewModel) : MainViewModel = model
 }

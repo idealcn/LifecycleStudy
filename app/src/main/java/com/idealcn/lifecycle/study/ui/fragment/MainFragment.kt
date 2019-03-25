@@ -18,6 +18,8 @@ import com.idealcn.lifecycle.study.decoration.CollectDecoration
 import com.idealcn.lifecycle.study.ui.activity.ArticleDetailActivity
 import com.idealcn.lifecycle.study.ui.adapter.HomeArticleAdapter
 import com.idealcn.lifecycle.study.ui.mvp.model.HomeModel
+import com.idealcn.lifecycle.study.ui.mvp.model.MainModel
+import com.idealcn.lifecycle.study.ui.mvp.model.MainViewModel
 import com.idealcn.lifecycle.study.ui.mvp.presenter.HomePresenter
 import com.idealcn.lifecycle.study.ui.mvp.view.HomeView
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -40,6 +42,8 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
 
     @Inject
     lateinit var presenter :HomePresenter
+
+    private lateinit var mainViewModel: MainViewModel
 
 
 
@@ -92,12 +96,24 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
 //            })
 
 
+//        mainViewModel.loadArticleList(page)
 
+        mainViewModel.dataRepository.observe(this,
+            Observer<List<Article>> { t: List<Article>? ->
+
+                t.orEmpty().apply {
+                    decoration.setData(decoration.getData().size, t as ArrayList<Article>)
+                    xbkBaseAdapter.addData(xbkBaseAdapter.getData().size,t)
+                }
+
+
+            })
     }
 
 
     private fun refreshData() {
-        presenter.loadArticleList(page)
+//        presenter.loadArticleList(page)
+        mainViewModel.loadArticleList(page)
     }
 
     override fun getLayout(): Int {
@@ -105,6 +121,7 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
     }
 
     override fun loadData() {
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         DaggerHomeComponent.builder().build().inject(this)
         presenter.attach(this)
         refreshData()
@@ -141,8 +158,8 @@ class MainFragment : BaseFragment<HomeView>(),HomeView {
 
     override fun showRequestResult(data: HomeArticleBean) {
         val list = data.datas
-        decoration.setData(decoration.getData().size,list)
-        xbkBaseAdapter.addData(xbkBaseAdapter.getData().size,list)
+//        decoration.setData(decoration.getData().size,list)
+//        xbkBaseAdapter.addData(xbkBaseAdapter.getData().size,list)
     }
 
 

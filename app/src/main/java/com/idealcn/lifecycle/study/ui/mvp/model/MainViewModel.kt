@@ -1,20 +1,25 @@
 package com.idealcn.lifecycle.study.ui.mvp.model
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.idealcn.lifecycle.study.AppApplication
+import com.idealcn.lifecycle.study.bean.Article
 import com.idealcn.lifecycle.study.bean.BaseResponseBean
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
 import com.idealcn.lifecycle.study.exception.BaseThrowable
 import com.idealcn.lifecycle.study.ext.ext
+import com.idealcn.lifecycle.study.http.Api
 import com.idealcn.lifecycle.study.http.RetrofitClient
 import com.idealcn.lifecycle.study.transformer.RxDialog
-import com.idealcn.lifecycle.study.transformer.RxErrorHandler
-import io.reactivex.Flowable
 import io.reactivex.Observable
-import org.reactivestreams.Publisher
+import io.reactivex.disposables.Disposable
 
 class MainViewModel : ViewModel() {
+
+    public val dataRepository = MutableLiveData<List<Article>>()
+
+
     // TODO: Implement the ViewModel
     fun homeArticleList(page : Int) : Observable<HomeArticleBean> {
 
@@ -48,18 +53,33 @@ class MainViewModel : ViewModel() {
 
     }
 
-    fun loadArticleList(page : Int) : Flowable<HomeArticleBean> {
-     return RetrofitClient.newInstance().api.loadArticleList(page)
+    fun loadArticleList(page : Int)  {
+      RetrofitClient.newInstance().api.articleList(page)
             .ext()
             //.compose(RxErrorHandler.handlerError(AppApplication.getAppContext()))
+          .flatMap {
+            if(it.errorCode==Api.ErrorCode.CODE_0 )
+             Observable.just( it.data)
+              else
+                Observable.error(Throwable(it.errorMsg))
+          }
+          .subscribe(object : io.reactivex.Observer<HomeArticleBean>{
 
-          .flatMap { base ->
-                if (base.errorCode == 200){
-                    Flowable.just(base.data)
-                }else {
-                    Flowable.error(BaseThrowable(base.errorMsg,base.errorCode))
-                }
-            }
+              override fun onComplete() {
+
+              }
+
+              override fun onSubscribe(d: Disposable) {
+              }
+
+              override fun onNext(t: HomeArticleBean) {
+                  dataRepository.postValue(t.datas)
+              }
+
+              override fun onError(e: Throwable) {
+              }
+
+          })
     }
 
 

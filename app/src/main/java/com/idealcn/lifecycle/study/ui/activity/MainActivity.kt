@@ -2,11 +2,9 @@ package com.idealcn.lifecycle.study.ui.activity
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
@@ -15,17 +13,13 @@ import com.idealcn.lifecycle.study.R
 import com.idealcn.lifecycle.study.base.BaseActivity
 import com.idealcn.lifecycle.study.bean.Chapter
 import com.idealcn.lifecycle.study.ui.fragment.*
-import com.idealcn.lifecycle.study.ui.mvp.contract.BaseContract
 import com.idealcn.lifecycle.study.ui.mvp.presenter.MainPresenter
-import com.idealcn.lifecycle.study.ui.mvp.view.HomeView
-import com.idealcn.lifecycle.study.ui.mvp.view.MainView
-import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.main_activity.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
+
     override fun getLayout(): Int {
         return R.layout.main_activity
     }
