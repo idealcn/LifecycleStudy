@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.idealcn.lifecycle.study.AppApplication
+import com.idealcn.lifecycle.study.AppHelper
 import com.idealcn.lifecycle.study.bean.Article
 import com.idealcn.lifecycle.study.bean.BaseResponseBean
 import com.idealcn.lifecycle.study.bean.HomeArticleBean
@@ -48,6 +49,10 @@ class MainViewModel : ViewModel() {
     }
 
     fun getArticleList(page : Int) : LiveData<BaseResponseBean<HomeArticleBean>> {
+
+        //articleList
+
+        //AppHelper.getHelper().getApi().articleList(page)
 
         return  RetrofitClient.newInstance().api.getArticleList(page)
 

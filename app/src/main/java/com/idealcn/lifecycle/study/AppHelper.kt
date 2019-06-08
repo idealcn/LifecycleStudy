@@ -1,6 +1,8 @@
 package com.idealcn.lifecycle.study
 
 import com.idealcn.lifecycle.study.bean.ResponseLoginBean
+import com.idealcn.lifecycle.study.http.Api
+import com.idealcn.lifecycle.study.http.RetrofitClient
 import com.idealcn.lifecycle.study.room.AppRoomDatabase
 
 class AppHelper {
@@ -26,5 +28,7 @@ class AppHelper {
         this.user = user
     }
 
+
+    fun getApi() : Api = RetrofitClient.newInstance().api
 
 }
