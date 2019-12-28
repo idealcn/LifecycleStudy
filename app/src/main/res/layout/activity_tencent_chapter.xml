@@ -36,6 +36,8 @@
 
 
         <android.support.v7.widget.Toolbar
+                app:titleTextColor="#ffffff"
+                app:title="公众号"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:id="@+id/toolBar"

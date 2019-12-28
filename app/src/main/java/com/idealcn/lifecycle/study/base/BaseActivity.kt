@@ -1,9 +1,15 @@
 package com.idealcn.lifecycle.study.base
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.TextView
 import android.widget.Toast
 import java.util.logging.Logger
+
 
 /**
  * @author: guoning
@@ -70,6 +76,26 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun getLayout(): Int
 
 
-    protected fun toast(msg :String) = Toast.makeText(this,msg, Toast.LENGTH_SHORT).show()
+    protected fun toast(msg :String) {
 
+        val toast = Toast(this)
+        //设置Toast要显示的位置，水平居中并在底部，X轴偏移0个单位，Y轴偏移70个单位，
+        //设置Toast要显示的位置，水平居中并在底部，X轴偏移0个单位，Y轴偏移70个单位，
+        toast.setGravity(Gravity.CENTER, 0, 0)
+        //设置显示时间
+        //设置显示时间
+        toast.duration = Toast.LENGTH_LONG
+        val textView = TextView(this)
+        var layoutParams : ViewGroup.LayoutParams? = textView.layoutParams
+        if (null==layoutParams){
+            layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+            textView.layoutParams = layoutParams
+        }
+        textView.setTextColor(Color.parseColor("#ffffff"))
+        textView.setBackgroundColor(Color.parseColor("#75000000"))
+        textView.setPadding(10,3,10,3)
+        textView.text = msg
+        toast.view = textView
+        toast.show()
+    }
 }

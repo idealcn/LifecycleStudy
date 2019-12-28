@@ -14,7 +14,5 @@ interface BaseContract {
     }
 
 
-    interface BaseView{
-
-    }
+    interface BaseView
 }

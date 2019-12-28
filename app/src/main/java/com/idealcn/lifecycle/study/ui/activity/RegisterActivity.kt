@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.idealcn.lifecycle.study.R
+import com.idealcn.lifecycle.study.base.BaseActivity
 import com.idealcn.lifecycle.study.dagger.component.DaggerRegisterComponent
 import com.idealcn.lifecycle.study.ext.gotoAndFinishActivity
 import com.idealcn.lifecycle.study.transformer.RxDialog
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class RegisterActivity : AppCompatActivity() , RegisterView {
+class RegisterActivity : BaseActivity() , RegisterView {
 
     @Inject
     lateinit var presenter: RegisterPresenter
@@ -25,7 +26,6 @@ class RegisterActivity : AppCompatActivity() , RegisterView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
 
         DaggerRegisterComponent.builder().build().inject(this)
 
@@ -45,6 +45,9 @@ class RegisterActivity : AppCompatActivity() , RegisterView {
         super.onDestroy()
         presenter.detach()
     }
+
+    override fun getLayout(): Int = R.layout.activity_register
+
 
     override fun showLoadingView() {
         RxDialog.showProgressDialog(this,"请求中")
@@ -66,5 +69,4 @@ class RegisterActivity : AppCompatActivity() , RegisterView {
     }
 
 
-   private fun toast(msg :String) = Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
 }

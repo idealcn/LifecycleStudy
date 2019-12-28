@@ -41,7 +41,8 @@ class LoginActivity : BaseActivity(),LoginView {
             RxView.clicks(login).throttled().subscribe {
                 val username = username.text.toString().trim()
                 val password = password.text.toString().trim()
-                presenter.login(username,password)
+              //  presenter.login(username,password)
+                gotoAndFinishActivity(MainActivity::class.java)
             }
         )
     }

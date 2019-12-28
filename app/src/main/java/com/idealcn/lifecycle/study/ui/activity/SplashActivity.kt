@@ -83,7 +83,7 @@ class SplashActivity : AppCompatActivity() {
                    AppHelper.getHelper().hasLogin()
                 }
                 .subscribe {
-                   if (it)
+                   if (!it)
                    {
                        gotoAndFinishActivity(MainActivity::class.java)
                    }
